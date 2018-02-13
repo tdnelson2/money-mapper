@@ -1,1 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+/* hide up/down arrows ("spinners") on input fields marked type="number" */
+.no-spinners {
+  -moz-appearance:textfield;
+}
+
+.no-spinners::-webkit-outer-spin-button,
+.no-spinners::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.find-btn {
+  margin-top: 30px;
+}
+
+.deactivated {
+  color: rgba(255, 255, 255, .5);
+}
+
+.deactivated:hover {
+  color: rgba(255, 255, 255, .5);
+  text-decoration: none;
+}
+
+p a {
+    margin-right: 10px;
+}

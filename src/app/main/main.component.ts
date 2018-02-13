@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
+  startDate: Date;
+  pay: number;
+  payFrequency: string;
+  payFrequencyOptions: string[] = ['Every 2 weeks', 'Every Month', 'Other'];
+
   constructor() { }
 
   ngOnInit() {
+      this.startDate = new Date();
+      this.pay = 0;
   }
 
 }
