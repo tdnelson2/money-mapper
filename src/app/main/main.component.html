@@ -15,6 +15,8 @@
     <div class="form-group row">
       <label for="pay-amt-input">Paycheck amount</label>
       <input currencyMask [(ngModel)]="pay"
+             (focus)="selectAllContent($event)" 
+             (mouseup)="$event.preventDefault()"
              name="pay-amt"
              class="form-control no-spinners"
              id="pay-amt-input">
@@ -33,9 +35,14 @@
       </select>
     </div>
 
-    <div class="form-group row find-btn">
-      <button class="btn btn-primary btn-lg btn-block">Find Extra Money!</button>
-      <!-- <button ui-sref="results({pay: main.pay, date: main.date.yyyymmdd(), frequency: main.makeURLString(main.payFrequency)})" type="submit" class="btn btn-primary btn-lg btn-block">Find Extra Money!</button> -->
+    <div *ngIf="payFrequency" class="form-group row find-btn">
+      <button [routerLink]="['results']"
+              [queryParams]="{pay: pay, 
+                              date: yyyymmdd(), 
+                              frequency: frequency()}"
+              class="btn btn-primary btn-lg btn-block">
+              Find Extra Money!
+      </button>
     </div>
 
   </form>

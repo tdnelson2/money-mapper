@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { YyyymmddService } from '../yyyymmdd.service';
+import { FrequencyOptionsService } from '../frequency-options.service';
 
 @Component({
   selector: 'app-main',
@@ -10,9 +12,24 @@ export class MainComponent implements OnInit {
   startDate: Date;
   pay: number;
   payFrequency: string;
-  payFrequencyOptions: string[] = ['Every 2 weeks', 'Every Month', 'Other'];
+  payFrequencyOptions: string[] = this.frequencyOptions.frequencyOptions;
 
-  constructor() { }
+  constructor(
+    private yyyymmddService: YyyymmddService,
+    private frequencyOptions: FrequencyOptionsService
+    ) { }
+
+  selectAllContent($event) {
+    $event.target.select();
+  }
+
+  yyyymmdd(): string {
+    return this.yyyymmddService.makeyyymmmddd(this.startDate);
+  }
+
+  frequency(): string {
+    return this.frequencyOptions.makeURLString(this.payFrequency);
+  }
 
   ngOnInit() {
       this.startDate = new Date();
