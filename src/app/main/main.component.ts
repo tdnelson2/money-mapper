@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { YyyymmddService } from '../yyyymmdd.service';
 import { FrequencyOptionsService } from '../frequency-options.service';
+import { Payday } from '../payday';
 
 @Component({
   selector: 'app-main',
@@ -9,9 +10,7 @@ import { FrequencyOptionsService } from '../frequency-options.service';
 })
 export class MainComponent implements OnInit {
 
-  startDate: Date;
-  pay: number;
-  payFrequency: string;
+  payday = new Payday;
   payFrequencyOptions: string[] = this.frequencyOptions.frequencyOptions;
 
   constructor(
@@ -23,17 +22,17 @@ export class MainComponent implements OnInit {
     $event.target.select();
   }
 
-  yyyymmdd(): string {
-    return this.yyyymmddService.makeyyymmmddd(this.startDate);
+  yyyymmdd(date: Date): string {
+    return this.yyyymmddService.makeyyymmmddd(date);
   }
 
-  frequency(): string {
-    return this.frequencyOptions.makeURLString(this.payFrequency);
+  frequency(option: string): string {
+    return this.frequencyOptions.optionAsURL(option);
   }
 
   ngOnInit() {
-      this.startDate = new Date();
-      this.pay = 0;
+      this.payday.nextPayday = new Date();
+      this.payday.paycheckAmount = 0;
   }
 
 }

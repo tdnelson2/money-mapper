@@ -7,7 +7,7 @@ export class FrequencyOptionsService {
 
 	public frequencyOptions: string[] = ['', 'Every 2 weeks', 'Every Month', 'Other'];
 
-	public makeURLString(str): string {
+	public optionAsURL(str): string {
     return str ? 
            str.split(' ').join('-').toLowerCase() :
            '';
@@ -15,7 +15,7 @@ export class FrequencyOptionsService {
 
 	public isOption(frequency: string): boolean {
     for (let option of this.frequencyOptions) {
-        if (frequency === this.makeURLString(option)) return true;
+        if (frequency === this.optionAsURL(option)) return true;
     }
     return false;
 	}

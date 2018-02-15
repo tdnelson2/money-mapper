@@ -5,15 +5,16 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MainComponent } from './main/main.component';
-import { PaydayService } from './payday.service';
 import { YyyymmddService } from './yyyymmdd.service';
 import { FrequencyOptionsService } from './frequency-options.service';
 import { ParamValidatorService } from './param-validator.service';
+import { MonthlyRecurrenceMapperService } from './monthly-recurrence-mapper.service';
 
 
 import { CurrencyMaskModule } from "ng2-currency-mask";
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ng2-currency-mask/src/currency-mask.config";
 import { ResultsComponent } from './results/results.component';
+import { PayRecurrenceService } from './pay-recurrence.service';
 
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
@@ -41,11 +42,12 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     CurrencyMaskModule
   ],
   providers: [
-    PaydayService,
     YyyymmddService,
     FrequencyOptionsService,
     ParamValidatorService,
-    { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }
+    MonthlyRecurrenceMapperService,
+    PayRecurrenceService,
+    { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig}
   ],
   bootstrap: [AppComponent]
 })

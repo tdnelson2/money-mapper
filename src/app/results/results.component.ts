@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
 
 import { ParamValidatorService } from '../param-validator.service';
+import { MonthlyRecurrenceMapperService } from '../monthly-recurrence-mapper.service';
 
 @Component({
   selector: 'app-results',
@@ -14,7 +15,8 @@ export class ResultsComponent implements OnInit {
   constructor(
   	private paramValidator: ParamValidatorService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private recurrenceMapper: MonthlyRecurrenceMapperService
 	) { }
 
   ngOnInit() {
@@ -22,6 +24,8 @@ export class ResultsComponent implements OnInit {
       .subscribe(params => {
 		  	if ( !this.paramsAreValid(params) ) {
 		  		this.router.navigateByUrl('/');
+		  	} else {
+		  		
 		  	}
       });
   }
