@@ -21,31 +21,22 @@ export class PayRecurrenceService {
 	  	}
 
   	let extraCount = payday.outlierMonths.length;
-    let phrase: string;
+    let phrase: string = '';
 
   	if (extraCount === 1) {
-  		extraMonthsPhrase = extraMonths[0];
+  		phrase = payday.outlierMonths[0].;
   	} else if (extraCount === 2) {
-  		extraMonthsPhrase = extraMonths.join(' and ');
+  		phrase = payday.outlierMonths.join(' and ');
   	} else if (extraCount > 2) {
-  		let part1 = extraMonths
+  		let part1 = payday.outlierMonths
 		                  .slice(0, extraCount - 1)
 		                  .join(', ');
-  		payday.extraMonthsPhrase = part1 + ' and ' + extraMonths[extraCount-1];
+  		payday.extraMonthsPhrase = part1 + ' and ' + payday.outlierMonths[extraCount-1];
   	}
 
-  	totalExtraPay = extraCount * payday.normalPayAmount;
+  	payday.totalExtraPay = extraCount * payday.normalMonthlyPayAmount;
 
-  	return {
-  		bigPayMonth,
-  		nextPayday,
-  		endDate,
-  		normalPayAmount,
-  		extraMonths,
-  		totalExtraPay,
-  		extraMonthsPhrase,
-  		results
-  	};
+    return payday;
 	}
 
 }
