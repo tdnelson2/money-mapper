@@ -7,8 +7,8 @@ export class Payday {
 	outlierMonthPayAmount: number;
 	frequency: string;
 	endDate: Date;
-	outlierMonths: Month[];
+	outlierMonths: Month[] = [];
 	totalExtraPay: number;
 	extraMonthsPhrase: string;
-	mappedMonths: Month[];
+	mappedMonths: Month[] = [];
 }

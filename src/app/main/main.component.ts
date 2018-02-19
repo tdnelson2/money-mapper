@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { YyyymmddService } from '../yyyymmdd.service';
 import { FrequencyOptionsService } from '../frequency-options.service';
 import { Payday } from '../payday';
+import { ParamValidatorService } from '../param-validator.service';
+import { PaydaySessionDataService } from '../payday-session-data.service';
 
 @Component({
   selector: 'app-main',
@@ -10,29 +14,39 @@ import { Payday } from '../payday';
 })
 export class MainComponent implements OnInit {
 
-  payday = new Payday;
+  payday: Payday;
   payFrequencyOptions: string[] = this.frequencyOptions.frequencyOptions;
+  errors : string[] = [];
 
   constructor(
     private yyyymmddService: YyyymmddService,
-    private frequencyOptions: FrequencyOptionsService
+    private frequencyOptions: FrequencyOptionsService,
+    private paramValidator: ParamValidatorService,
+    private router: Router
     ) { }
 
   selectAllContent($event) {
     $event.target.select();
   }
 
-  yyyymmdd(date: Date): string {
-    return this.yyyymmddService.makeyyymmmddd(date);
-  }
-
-  frequency(option: string): string {
-    return this.frequencyOptions.optionAsURL(option);
+  showResults() {
+    this.payday.nextPayday =    this.yyyymmddService
+                                    .strToDate(this.payday.nextPayday);
+    const url = "/results?pay="+this.payday
+                                    .paycheckAmount+
+                       "&date="+this.yyyymmddService
+                                    .makeyyymmmddd(this.payday.nextPayday)+
+                  "&frequency="+this.frequencyOptions
+                                    .optionAsURL(this.payday.frequency);
+    this.router.navigateByUrl(url);
   }
 
   ngOnInit() {
-      this.payday.nextPayday = new Date();
-      this.payday.paycheckAmount = 0;
+    if (this.paramValidator.isError()) {
+      this.errors = this.paramValidator.getErrors();
+    }
+    this.payday.nextPayday = new Date();
+    this.payday.paycheckAmount = 0;
   }
 
 }

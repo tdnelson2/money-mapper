@@ -9,6 +9,7 @@ import { YyyymmddService } from './yyyymmdd.service';
 import { FrequencyOptionsService } from './frequency-options.service';
 import { ParamValidatorService } from './param-validator.service';
 import { MonthlyRecurrenceMapperService } from './monthly-recurrence-mapper.service';
+import { PaydaySessionDataService } from './payday-session-data.service';
 
 
 import { CurrencyMaskModule } from "ng2-currency-mask";
@@ -47,6 +48,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     ParamValidatorService,
     MonthlyRecurrenceMapperService,
     PayRecurrenceService,
+    PaydaySessionDataService,
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig}
   ],
   bootstrap: [AppComponent]

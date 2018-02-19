@@ -1,10 +1,17 @@
 
 <div>
+  <div *ngIf="errors.length > 0">
+    <div *ngFor="let error of errors"
+         class="alert alert-warning"
+         role="alert">
+      {{error}}
+    </div>
+  </div>
   <form>
     <div class="form-group row">
       <label for="start-date-input">When is your next payday?</label>
       <input [ngModel]="payday.nextPayday | date:'yyyy-MM-dd'"
-             (ngModelChange)="startDate = $event"
+             (ngModelChange)="payday.nextPayday = $event"
              [value]="dt | date:'yyyy-MM-dd'"
              name="start-date"
              class="form-control no-spinners"
@@ -15,7 +22,7 @@
     <div class="form-group row">
       <label for="pay-amt-input">Paycheck amount</label>
       <input currencyMask [(ngModel)]="payday.paycheckAmount"
-             (focus)="selectAllContent($event)" 
+             (focus)="selectAllContent($event)"
              (mouseup)="$event.preventDefault()"
              name="pay-amt"
              class="form-control no-spinners"
@@ -36,10 +43,7 @@
     </div>
 
     <div *ngIf="payday.frequency" class="form-group row find-btn">
-      <button [routerLink]="['results']"
-              [queryParams]="{pay: payday.amount, 
-                              date: yyyymmdd(payday.nextPayday), 
-                              frequency: frequency(payday.frequency)}"
+      <button (click)="showResults()"
               class="btn btn-primary btn-lg btn-block">
               Find Extra Money!
       </button>
