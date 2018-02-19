@@ -6,6 +6,7 @@ import { CurrencyPipe } from '@angular/common';
 import { ParamValidatorService } from '../param-validator.service';
 import { PayRecurrenceService } from '../pay-recurrence.service';
 import { Payday } from '../payday';
+import { PaydaySessionDataService } from '../payday-session-data.service';
 
 @Component({
   selector: 'app-results',
@@ -14,24 +15,22 @@ import { Payday } from '../payday';
 })
 export class ResultsComponent implements OnInit {
 
-  payday: Payday;
-
   constructor(
   	private paramValidator: ParamValidatorService,
     private route: ActivatedRoute,
     private router: Router,
-    private payRecurrenceService: PayRecurrenceService
+    private payRecurrenceService: PayRecurrenceService,
+    private pd: PaydaySessionDataService
 	) { }
 
   ngOnInit() {
     this.route.queryParams
       .subscribe(params => {
 		  	if ( this.paramValidator.paramsAreValid(params) ) {
-          let payday = new Payday();
-          payday.nextPayday = new Date(params.date);
-          payday.paycheckAmount = +params.pay;
-          payday.frequency = params.frequency;
-          this.payday = this.payRecurrenceService.buildResults(payday);
+          this.pd.data.nextPayday = new Date(params.date);
+          this.pd.data.paycheckAmount = +params.pay;
+          this.pd.data.frequency = params.frequency;
+          this.payRecurrenceService.buildResults(this.pd.data);
 		  	} else {
           this.router.navigateByUrl('/');
 		  	}

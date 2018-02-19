@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router }            from '@angular/router';
 
-import { YyyymmddService } from '../yyyymmdd.service';
-import { FrequencyOptionsService } from '../frequency-options.service';
-import { Payday } from '../payday';
-import { ParamValidatorService } from '../param-validator.service';
+import { YyyymmddService }          from '../yyyymmdd.service';
+import { FrequencyOptionsService }  from '../frequency-options.service';
+import { Payday }                   from '../payday';
+import { ParamValidatorService }    from '../param-validator.service';
 import { PaydaySessionDataService } from '../payday-session-data.service';
 
 @Component({
@@ -14,15 +14,15 @@ import { PaydaySessionDataService } from '../payday-session-data.service';
 })
 export class MainComponent implements OnInit {
 
-  payday: Payday;
   payFrequencyOptions: string[] = this.frequencyOptions.frequencyOptions;
   errors : string[] = [];
 
   constructor(
-    private yyyymmddService: YyyymmddService,
+    private yyyymmddService:  YyyymmddService,
     private frequencyOptions: FrequencyOptionsService,
-    private paramValidator: ParamValidatorService,
-    private router: Router
+    private paramValidator:   ParamValidatorService,
+    private router:           Router,
+    private pd:               PaydaySessionDataService
     ) { }
 
   selectAllContent($event) {
@@ -30,23 +30,32 @@ export class MainComponent implements OnInit {
   }
 
   showResults() {
-    this.payday.nextPayday =    this.yyyymmddService
-                                    .strToDate(this.payday.nextPayday);
-    const url = "/results?pay="+this.payday
-                                    .paycheckAmount+
-                       "&date="+this.yyyymmddService
-                                    .makeyyymmmddd(this.payday.nextPayday)+
-                  "&frequency="+this.frequencyOptions
-                                    .optionAsURL(this.payday.frequency);
-    this.router.navigateByUrl(url);
+    this.pd.data.nextPayday = this.yyyymmddService
+                                  .strToDate(this.pd.data.nextPayday);
+    const params = {
+      pay:       this.pd.data.paycheckAmount || 0,
+      date:      this.yyyymmddService.makeyyymmmddd(this.pd.data.nextPayday),
+      frequency: this.frequencyOptions.optionAsURL(this.pd.data.frequency)
+    }
+
+    if (this.paramValidator.paramsAreValid(params)) {
+      this.pd.data.nextPayday =   this.yyyymmddService
+                                      .strToDate(this.pd.data.nextPayday);
+      const url = "/results?pay="+params.pay+
+                         "&date="+params.date+
+                    "&frequency="+params.frequency;
+      this.router.navigateByUrl(url);
+    } else {
+      console.log('params invalid');
+      this.errors = this.paramValidator.getErrors();
+    }
   }
 
   ngOnInit() {
     if (this.paramValidator.isError()) {
       this.errors = this.paramValidator.getErrors();
     }
-    this.payday.nextPayday = new Date();
-    this.payday.paycheckAmount = 0;
+      this.pd.data.nextPayday = this.pd.data.nextPayday || new Date();
+      this.pd.data.paycheckAmount = this.pd.data.paycheckAmount || 0;
   }
-
 }

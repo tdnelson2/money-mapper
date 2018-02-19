@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import * as _ from 'lodash';
+// import * as _ from 'lodash';
+import { isNumber, isNaN, has } from 'lodash';
 
 import { YyyymmddService } from './yyyymmdd.service';
 import { FrequencyOptionsService } from './frequency-options.service';
+import { arrayToSentence } from './array-to-sentence';
 
 @Injectable()
 export class ParamValidatorService {
@@ -35,24 +37,26 @@ export class ParamValidatorService {
     let missing = this.checkForMissingParams(p);
     let errors: string[] = [];
     if (missing.length > 0) {
-      errors.push(`Value(s) missing for '${missing.join(', ')}'`);
+      const missingInQuotes = missing.map( m => `'${m}'`);
+      errors.push(`Value${missing.length > 1 ? 's' : ''} \
+                   missing for ${arrayToSentence(missingInQuotes)}`);
       this.errors = errors;
-      return true;
+      return false;
     } else {
-      if (p.pay == 'NaN' || !p.pay) {
+      if (String(p.pay) == 'NaN' || !p.pay) {
           errors.push(`Error parsing pay: no value found.`);
-      } else if (!_.isNumber(+p.pay) || _.isNaN(+p.pay)) {
+      } else if (!isNumber(+p.pay) || isNaN(+p.pay)) {
         errors.push(`Error parsing pay: '${p.pay}' is not valid number.`);
       }
 
-      if (p.date == 'NaN' || !p.date) {
+      if (String(p.date) == 'NaN' || !p.date) {
         errors.push(`Error parsing date: no value found.`);
       } else if (!this.yyyymmdd.isValidDate(p.date)) {
         errors.push(`Error parsing date: '${p.date}' is invalid.`);
       }
 
 
-      if (p.frequency == 'NaN' || !p.frequency) {
+      if (String(p.frequency) == 'NaN' || !p.frequency) {
         errors.push(`Error parsing frequency: no value found.`);
       } else if (!this.frequencyOptions.isOption(p.frequency)) {
         errors.push(`Error parsing pay frequency: '${p.frequency}' is not an option.`);
@@ -65,7 +69,7 @@ export class ParamValidatorService {
   private checkForMissingParams(p): string[] {
     let missing : string[] = [];
     for (const key of this.paramKeys) {
-      if (!_.has(p, key)) {
+      if (!has(p, key)) {
         missing.push(key);
       }
     }

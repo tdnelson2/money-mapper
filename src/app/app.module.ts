@@ -8,7 +8,6 @@ import { MainComponent } from './main/main.component';
 import { YyyymmddService } from './yyyymmdd.service';
 import { FrequencyOptionsService } from './frequency-options.service';
 import { ParamValidatorService } from './param-validator.service';
-import { MonthlyRecurrenceMapperService } from './monthly-recurrence-mapper.service';
 import { PaydaySessionDataService } from './payday-session-data.service';
 
 
@@ -46,7 +45,6 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     YyyymmddService,
     FrequencyOptionsService,
     ParamValidatorService,
-    MonthlyRecurrenceMapperService,
     PayRecurrenceService,
     PaydaySessionDataService,
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig}

@@ -10,8 +10,8 @@
   <form>
     <div class="form-group row">
       <label for="start-date-input">When is your next payday?</label>
-      <input [ngModel]="payday.nextPayday | date:'yyyy-MM-dd'"
-             (ngModelChange)="payday.nextPayday = $event"
+      <input [ngModel]="pd.data.nextPayday | date:'yyyy-MM-dd'"
+             (ngModelChange)="pd.data.nextPayday = $event"
              [value]="dt | date:'yyyy-MM-dd'"
              name="start-date"
              class="form-control no-spinners"
@@ -21,7 +21,7 @@
 
     <div class="form-group row">
       <label for="pay-amt-input">Paycheck amount</label>
-      <input currencyMask [(ngModel)]="payday.paycheckAmount"
+      <input currencyMask [(ngModel)]="pd.data.paycheckAmount"
              (focus)="selectAllContent($event)"
              (mouseup)="$event.preventDefault()"
              name="pay-amt"
@@ -31,7 +31,7 @@
 
     <div class="form-group row">
       <label for="select-pay-frequency">How often are you paid?</label>
-      <select [(ngModel)]="payday.frequency"
+      <select [(ngModel)]="pd.data.frequency"
               name="pay-frequency"
               class="form-control"
               id="select-pay-frequency">
@@ -42,7 +42,7 @@
       </select>
     </div>
 
-    <div *ngIf="payday.frequency" class="form-group row find-btn">
+    <div *ngIf="pd.data.frequency" class="form-group row find-btn">
       <button (click)="showResults()"
               class="btn btn-primary btn-lg btn-block">
               Find Extra Money!
