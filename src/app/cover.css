@@ -72,7 +72,7 @@ body {
 }
 
 .nav-masthead .nav-link + .nav-link {
-  margin-right: 1rem;
+  margin-left: 1rem;
 }
 
 .nav-masthead .active {
