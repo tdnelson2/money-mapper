@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MainComponent } from './main/main.component';
-import { YyyymmddService } from './yyyymmdd.service';
 import { FrequencyOptionsService } from './frequency-options.service';
 import { ParamValidatorService } from './param-validator.service';
 import { PaydaySessionDataService } from './payday-session-data.service';
@@ -42,7 +41,6 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     CurrencyMaskModule
   ],
   providers: [
-    YyyymmddService,
     FrequencyOptionsService,
     ParamValidatorService,
     PayRecurrenceService,

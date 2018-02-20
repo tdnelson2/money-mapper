@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 
-// import * as _ from 'lodash';
 import { isNumber, isNaN, has } from 'lodash';
 
-import { YyyymmddService } from './yyyymmdd.service';
+import { YyyymmddService }         from './yyyymmdd.service';
 import { FrequencyOptionsService } from './frequency-options.service';
-import { arrayToSentence } from './array-to-sentence';
+import { arrayToSentence }         from './array-to-sentence';
 
 @Injectable()
 export class ParamValidatorService {
@@ -36,30 +35,32 @@ export class ParamValidatorService {
   paramsAreValid(p):boolean {
     let missing = this.checkForMissingParams(p);
     let errors: string[] = [];
+
     if (missing.length > 0) {
       const missingInQuotes = missing.map( m => `'${m}'`);
-      errors.push(`Value${missing.length > 1 ? 's' : ''} \
-                   missing for ${arrayToSentence(missingInQuotes)}`);
+      errors.push(`Value${missing.length > 1 ? 's' : ''} missing for \
+                  ${arrayToSentence(missingInQuotes)}`);
       this.errors = errors;
       return false;
     } else {
       if (String(p.pay) == 'NaN' || !p.pay) {
-          errors.push(`Error parsing pay: no value found.`);
+          errors.push(`Did you forget to add your paycheck amount?`);
       } else if (!isNumber(+p.pay) || isNaN(+p.pay)) {
-        errors.push(`Error parsing pay: '${p.pay}' is not valid number.`);
+        errors.push(`'${p.pay}' is not valid paycheck amount.`);
       }
 
       if (String(p.date) == 'NaN' || !p.date) {
         errors.push(`Error parsing date: no value found.`);
       } else if (!this.yyyymmdd.isValidDate(p.date)) {
-        errors.push(`Error parsing date: '${p.date}' is invalid.`);
+        errors.push(`'${p.date}' is not a valid date.`);
       }
 
 
       if (String(p.frequency) == 'NaN' || !p.frequency) {
         errors.push(`Error parsing frequency: no value found.`);
       } else if (!this.frequencyOptions.isOption(p.frequency)) {
-        errors.push(`Error parsing pay frequency: '${p.frequency}' is not an option.`);
+        errors.push(`'${p.frequency}' is not one of \
+                     the pay frequency options.`);
       }
     }
     this.errors = errors;

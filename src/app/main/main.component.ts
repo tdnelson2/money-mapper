@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
 
-import { YyyymmddService }          from '../yyyymmdd.service';
+import { DateTools }                from '../date-tools';
 import { FrequencyOptionsService }  from '../frequency-options.service';
 import { Payday }                   from '../payday';
 import { ParamValidatorService }    from '../param-validator.service';
@@ -18,7 +18,6 @@ export class MainComponent implements OnInit {
   errors : string[] = [];
 
   constructor(
-    private yyyymmddService:  YyyymmddService,
     private frequencyOptions: FrequencyOptionsService,
     private paramValidator:   ParamValidatorService,
     private router:           Router,
