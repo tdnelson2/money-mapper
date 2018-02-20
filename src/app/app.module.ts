@@ -8,12 +8,13 @@ import { MainComponent } from './main/main.component';
 import { FrequencyOptionsService } from './frequency-options.service';
 import { ParamValidatorService } from './param-validator.service';
 import { PaydaySessionDataService } from './payday-session-data.service';
+import { ResultsComponent } from './results/results.component';
+import { PayRecurrenceService } from './pay-recurrence.service';
 
 
 import { CurrencyMaskModule } from "ng2-currency-mask";
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ng2-currency-mask/src/currency-mask.config";
-import { ResultsComponent } from './results/results.component';
-import { PayRecurrenceService } from './pay-recurrence.service';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
@@ -38,7 +39,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    CurrencyMaskModule
+    CurrencyMaskModule,
+    AngularFontAwesomeModule
   ],
   providers: [
     FrequencyOptionsService,

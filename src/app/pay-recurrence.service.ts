@@ -16,6 +16,11 @@ export class PayRecurrenceService {
 		payday.normalMonthlyPayAmount = payday.paycheckAmount * 2;
 		payday.outlierMonthPayAmount = payday.paycheckAmount * 3;
 
+    // Reset in case user is looking for the second time
+    // in the same session.
+    payday.outlierMonths = [];
+    payday.mappedMonths = [];
+
     // Get monthly recurrence data (number of times you get paid each month)
   	payday.mappedMonths = mapToMonths(payday.nextPayday, payday.endDate, 14);
 

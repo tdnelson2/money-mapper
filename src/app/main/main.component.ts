@@ -29,17 +29,16 @@ export class MainComponent implements OnInit {
   }
 
   showResults() {
-    this.pd.data.nextPayday = this.yyyymmddService
-                                  .strToDate(this.pd.data.nextPayday);
+    this.pd.data.nextPayday = DateTools.strToDate(this.pd.data.nextPayday);
     const params = {
       pay:       this.pd.data.paycheckAmount || 0,
-      date:      this.yyyymmddService.makeyyymmmddd(this.pd.data.nextPayday),
+      date:      DateTools.makeyyymmmddd(this.pd.data.nextPayday),
       frequency: this.frequencyOptions.optionAsURL(this.pd.data.frequency)
     }
 
     if (this.paramValidator.paramsAreValid(params)) {
-      this.pd.data.nextPayday =   this.yyyymmddService
-                                      .strToDate(this.pd.data.nextPayday);
+      this.pd.data.nextPayday =   DateTools
+                                        .strToDate(this.pd.data.nextPayday);
       const url = "/results?pay="+params.pay+
                          "&date="+params.date+
                     "&frequency="+params.frequency;
@@ -56,5 +55,6 @@ export class MainComponent implements OnInit {
     }
       this.pd.data.nextPayday = this.pd.data.nextPayday || new Date();
       this.pd.data.paycheckAmount = this.pd.data.paycheckAmount || 0;
+      this.pd.data.frequency = undefined;
   }
 }

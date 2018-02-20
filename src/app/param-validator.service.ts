@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { isNumber, isNaN, has } from 'lodash';
 
-import { YyyymmddService }         from './yyyymmdd.service';
+import { DateTools }               from './date-tools';
 import { FrequencyOptionsService } from './frequency-options.service';
 import { arrayToSentence }         from './array-to-sentence';
 
@@ -28,7 +28,6 @@ export class ParamValidatorService {
 
 
   constructor(
-  	private yyyymmdd: YyyymmddService,
   	private frequencyOptions: FrequencyOptionsService
   	) { }
 
@@ -51,7 +50,7 @@ export class ParamValidatorService {
 
       if (String(p.date) == 'NaN' || !p.date) {
         errors.push(`Error parsing date: no value found.`);
-      } else if (!this.yyyymmdd.isValidDate(p.date)) {
+      } else if (!DateTools.isValidDate(p.date)) {
         errors.push(`'${p.date}' is not a valid date.`);
       }
 

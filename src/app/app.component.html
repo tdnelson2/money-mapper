@@ -2,10 +2,13 @@
     <header class="masthead mb-auto">
       <div class="inner">
         <nav class="nav nav-masthead justify-content-center">
-          <a class="nav-link active" href="#">Home</a>
-          <a class="nav-link" href="#">Features</a>
+          <fa *ngIf="location.path() !== ''"
+              (click)="goBack()" 
+               class="nav-link" 
+               name="arrow-circle-left" 
+               size="2x"></fa>
         </nav>
-        <h3 class="masthead-brand">MoneyFinder</h3>
+        <h3 [ngClass]="{'masthead-brand': location.path() !== ''}">MoneyFinder</h3>
       </div>
     </header>
 
