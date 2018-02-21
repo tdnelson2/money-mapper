@@ -1,9 +1,11 @@
+import { Moment }  from 'moment/moment';
+
 export class Month {
 
   constructor() { }
 
   recurrenceCount: number = 0;
-  recurrenceDates: Date[] = [];
+  recurrenceDates: Moment[] = [];
   name: string;
-  year: number;
+  year: string;
 }

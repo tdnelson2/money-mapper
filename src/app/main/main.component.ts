@@ -7,6 +7,8 @@ import { Payday }                   from '../payday';
 import { ParamValidatorService }    from '../param-validator.service';
 import { PaydaySessionDataService } from '../payday-session-data.service';
 
+import * as moment from 'moment/moment';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -29,10 +31,12 @@ export class MainComponent implements OnInit {
   }
 
   showResults() {
+    console.log('nextPayday: ', this.pd.data.nextPayday)
     this.pd.data.nextPayday = DateTools.strToDate(this.pd.data.nextPayday);
+    console.log('nextPayday: ',this.pd.data.nextPayday);
     const params = {
       pay:       this.pd.data.paycheckAmount || 0,
-      date:      DateTools.makeyyymmmddd(this.pd.data.nextPayday),
+      date:      this.pd.data.nextPaydayMoment().format('YYYY-MM-DD'),
       frequency: this.frequencyOptions.optionAsURL(this.pd.data.frequency)
     }
 

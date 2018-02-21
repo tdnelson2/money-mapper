@@ -1,3 +1,6 @@
+import * as moment from 'moment/moment';
+import { Moment }  from 'moment/moment';
+
 import { Month } from './month';
 
 export class Payday {
@@ -6,9 +9,14 @@ export class Payday {
 	normalMonthlyPayAmount: number;
 	outlierMonthPayAmount: number;
 	frequency: string;
-	endDate: Date;
+	endMoment: Moment;
 	outlierMonths: Month[] = [];
 	totalExtraPay: number;
 	extraMonthsPhrase: string;
 	mappedMonths: Month[] = [];
+
+
+	nextPaydayMoment(): Moment {
+		return moment(this.nextPayday);
+	}
 }

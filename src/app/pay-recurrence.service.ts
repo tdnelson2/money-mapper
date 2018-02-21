@@ -12,17 +12,17 @@ export class PayRecurrenceService {
 	buildResults(payday: Payday, numberOfDays:number=365) {
 
     // Fill in missing info on this Payday instance
-		payday.endDate = new Date(payday.nextPayday.getTime() + (numberOfDays * 86400000));
+		payday.endMoment = payday.nextPaydayMoment().clone().add(numberOfDays, 'days');
 		payday.normalMonthlyPayAmount = payday.paycheckAmount * 2;
 		payday.outlierMonthPayAmount = payday.paycheckAmount * 3;
 
-    // Reset in case user is looking for the second time
-    // in the same session.
+    // Clear the arrays to mitigate the possiblity
+    // of old data being added to new data.
     payday.outlierMonths = [];
     payday.mappedMonths = [];
 
     // Get monthly recurrence data (number of times you get paid each month)
-  	payday.mappedMonths = mapToMonths(payday.nextPayday, payday.endDate, 14);
+  	payday.mappedMonths = mapToMonths(payday.nextPaydayMoment(), payday.endMoment, 14);
 
     // Find the months in which you get paid 3 times
   	for (let month of payday.mappedMonths) {

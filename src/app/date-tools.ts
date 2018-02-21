@@ -1,4 +1,6 @@
 
+import * as moment from 'moment/moment.js';
+
 export class DateTools {
 
   constructor() { }
@@ -22,9 +24,10 @@ export class DateTools {
 	  return d.toISOString().slice(0,10) === dateString;
 	}
 
-	static strToDate(date: Date) {
+	static strToDate(date: Date): Date {
+		console.log('moment date: ', moment(date, 'YYYY-MM-DD'));
 		if (typeof(date) === 'string') {
-			return new Date(date);
+			return moment(date, 'YYYY-MM-DD').toDate();
 		}
 		return date;
 	}
