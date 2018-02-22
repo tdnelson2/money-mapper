@@ -1,5 +1,5 @@
 <h1 class="cover-heading">I found {{pd.data.totalExtraPay | currency: USD: 'symbol':'1.0-0'}}.</h1>
-<p class="lead">Over the next year there are {{pd.data.outlierMonths.length}} months in which you will get paid 3 times. In {{pd.data.extraMonthsPhrase}} you will take home {{pd.data.outlierMonthPayAmount | currency: USD: 'symbol':'1.0-0'}} instead of {{pd.data.normalMonthlyPayAmount | currency: USD: 'symbol':'1.0-0'}}. What do you want to do with all the extra cash?</p>
+<p class="lead">Over the next year there {{pd.data.outlierMonths.length === 1 ? 'is' : 'are'}} {{pd.data.outlierMonths.length}} month{{pd.data.outlierMonths.length === 1 ? '' : 's'}} in which you will get paid {{pd.data.normalNumberOfPeriods+1}} times instead of only {{pd.data.normalNumberOfPeriods}} times. In {{pd.data.extraMonthsPhrase}} you will take home {{pd.data.outlierMonthPayAmount | currency: USD: 'symbol':'1.0-0'}} instead of {{pd.data.normalMonthlyPayAmount | currency: USD: 'symbol':'1.0-0'}}. What do you want to do with all the extra cash?</p>
 <p class="lead">
   <a href="#" class="btn btn-lg btn-secondary">Blow it!</a>
   <a href="#" class="btn btn-lg btn-secondary">Invest!</a>

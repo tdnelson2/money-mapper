@@ -29,44 +29,44 @@ export class MainComponent implements OnInit {
   selectAllContent($event) {
     $event.target.select();
   }
-  // public frequencyOptions: string[] = ['', 
-  //                                      'Every 2 weeks', 
-  //                                      'Every week', 
-  //                                      'Every month', 
-  //                                      'Other'];
-  // nextView() {
-  //   if (this.pd.data.frequency === "Every 2 weeks" ||
-  //       this.pd.data.frequency === "Every week") {
-  //     this.showResults(this.pd.data.frequency)
-  //   } else {
 
-  //     switch (this.pd.data.frequency) {
-        
-  //       case "Every month":
-  //         //
-  //         break;
-        
-  //       case "Other":
-  //         this.showResults(this.pd.data.frequency)
-  //         break;
-        
-        
-  //       default:
-  //         // code...
-  //         break;
-  //     }
+  nextView() {
 
-  //   }
-  // }
+    switch (this.pd.data.frequency) {
 
-  showResults(frequency: string) {
+      case "Every 2 weeks":
+        console.log(`will be called with 14 days`);
+        this.showResults(14)
+        break;
+
+      case "Every week":
+        console.log(`will be called with 7 days`);
+        this.showResults(7)
+        break;
+
+      case "Other":
+        console.log(`will be called with ${this.pd.data.frequencyInDays} days`);
+        this.showResults(+this.pd.data.frequencyInDays)
+        break;
+
+      case "Every month":
+        console.log('every month method will be called');
+        break;
+
+      default:
+        // code...
+        break;
+    }
+  }
+
+  showResults(frequency: number) {
     console.log('nextPayday: ', this.pd.data.nextPayday)
     this.pd.data.nextPayday = DateTools.strToDate(this.pd.data.nextPayday);
     console.log('nextPayday: ',this.pd.data.nextPayday);
     const params = {
       pay:       this.pd.data.paycheckAmount || 0,
       date:      this.pd.data.nextPaydayMoment().format('YYYY-MM-DD'),
-      frequency: this.frequencyOptions.optionAsURL(frequency)
+      frequency: frequency
     }
 
     if (this.paramValidator.paramsAreValid(params)) {

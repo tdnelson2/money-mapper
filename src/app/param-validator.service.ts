@@ -57,9 +57,9 @@ export class ParamValidatorService {
 
       if (String(p.frequency) == 'NaN' || !p.frequency) {
         errors.push(`Error parsing frequency: no value found.`);
-      } else if (!this.frequencyOptions.isOption(p.frequency)) {
-        errors.push(`'${p.frequency}' is not one of \
-                     the pay frequency options.`);
+      } else if (!isNumber(+p.frequency) || isNaN(+p.frequency)) {
+        errors.push(`'${p.frequency}' is not a number. \
+                     Number of days between paydays is expected.`);
       }
     }
     this.errors = errors;

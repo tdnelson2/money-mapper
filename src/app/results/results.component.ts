@@ -31,7 +31,7 @@ export class ResultsComponent implements OnInit {
 		  	if ( this.paramValidator.paramsAreValid(params) ) {
           this.pd.data.nextPayday = moment(params.date, 'YYYY-MM-DD').toDate();
           this.pd.data.paycheckAmount = +params.pay;
-          this.pd.data.frequency = params.frequency;
+          this.pd.data.frequencyInDays = +params.frequency;
           this.payRecurrenceService.buildResults(this.pd.data);
           console.log(this.pd.data);
 		  	} else {

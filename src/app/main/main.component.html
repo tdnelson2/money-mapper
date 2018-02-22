@@ -42,11 +42,23 @@
       </select>
     </div>
 
-    <div *ngIf="pd.data.frequency && 
-                pd.data.frequency !== 'Other' ||
-               (pd.data.frequency === 'Other' && )" 
+    <div *ngIf="pd.data.frequency === 'Other'"
+         class="form-group row">
+      <label for="specify-pay-frequency">How many days between paydays?</label>
+      <input [(ngModel)]="pd.data.frequencyInDays"
+             name="other-pay-frequency"
+             class="form-control no-spinners"
+             type="number"
+             value=""
+             id="specify-pay-frequency">
+    </div>
+
+    <div *ngIf="(pd.data.frequency &&
+                 pd.data.frequency !== 'Other') ||
+                (pd.data.frequencyInDays &&
+                 pd.data.frequency === 'Other')"
          class="form-group row find-btn">
-      <button (click)="showResults()"
+      <button (click)="nextView()"
               class="btn btn-primary btn-lg btn-block">
               Find Extra Money!
       </button>

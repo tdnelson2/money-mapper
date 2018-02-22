@@ -13,8 +13,9 @@ export class PayRecurrenceService {
 
     // Fill in missing info on this Payday instance
 		payday.endMoment = payday.nextPaydayMoment().clone().add(numberOfDays, 'days');
-		payday.normalMonthlyPayAmount = payday.paycheckAmount * 2;
-		payday.outlierMonthPayAmount = payday.paycheckAmount * 3;
+    payday.normalNumberOfPeriods = Math.floor(30.42/payday.frequencyInDays);
+		payday.normalMonthlyPayAmount = payday.paycheckAmount * payday.normalNumberOfPeriods;
+		payday.outlierMonthPayAmount = payday.paycheckAmount * (payday.normalNumberOfPeriods+1);
 
     // Clear the arrays to mitigate the possiblity
     // of old data being added to new data.
@@ -22,11 +23,17 @@ export class PayRecurrenceService {
     payday.mappedMonths = [];
 
     // Get monthly recurrence data (number of times you get paid each month)
-  	payday.mappedMonths = mapToMonths(payday.nextPaydayMoment(), payday.endMoment, 14);
+  	payday.mappedMonths = mapToMonths(payday.nextPaydayMoment(),
+                                      payday.endMoment,
+                                      payday.frequencyInDays);
 
-    // Find the months in which you get paid 3 times
+    let extraPeriods = 0;
+
+    // Find the outlier months
   	for (let month of payday.mappedMonths) {
-  		if (month.recurrenceCount === 3) {
+  		if (month.recurrenceCount > payday.normalNumberOfPeriods) {
+        console.log(`extra period for ${month.name} is ${month.recurrenceCount - payday.normalNumberOfPeriods}\n normal numer of paydays is ${payday.normalNumberOfPeriods} \n this month's number of paydays is ${month.recurrenceCount}\n\n`);
+        extraPeriods = extraPeriods + (month.recurrenceCount - payday.normalNumberOfPeriods);
   			payday.outlierMonths.push(month);
   		}
   	}
@@ -34,7 +41,7 @@ export class PayRecurrenceService {
     const months = payday.outlierMonths.map(m => m.name);
     payday.extraMonthsPhrase = arrayToSentence(months);
 
-  	payday.totalExtraPay = payday.outlierMonths.length * payday.paycheckAmount;
+  	payday.totalExtraPay = extraPeriods * payday.paycheckAmount;
 
     return payday;
 	}

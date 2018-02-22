@@ -8,8 +8,9 @@ export class Payday {
 	paycheckAmount: number;
 	normalMonthlyPayAmount: number;
 	outlierMonthPayAmount: number;
+	normalNumberOfPeriods: number;
 	frequency: string;
-	otherFrequencyInDays: string;
+	frequencyInDays: number;
 	endMoment: Moment;
 	outlierMonths: Month[] = [];
 	totalExtraPay: number;

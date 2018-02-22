@@ -51,7 +51,6 @@ export const mapToMonths = (start: Moment,
       month.recurrenceDates.push( current.clone() );
 
       current.add(period, 'days');
-      console.log(current.format('YYYY-MM-DD'));
   }
   return recurrences;
 };
