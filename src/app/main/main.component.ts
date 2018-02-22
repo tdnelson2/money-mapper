@@ -29,15 +29,44 @@ export class MainComponent implements OnInit {
   selectAllContent($event) {
     $event.target.select();
   }
+  // public frequencyOptions: string[] = ['', 
+  //                                      'Every 2 weeks', 
+  //                                      'Every week', 
+  //                                      'Every month', 
+  //                                      'Other'];
+  // nextView() {
+  //   if (this.pd.data.frequency === "Every 2 weeks" ||
+  //       this.pd.data.frequency === "Every week") {
+  //     this.showResults(this.pd.data.frequency)
+  //   } else {
 
-  showResults() {
+  //     switch (this.pd.data.frequency) {
+        
+  //       case "Every month":
+  //         //
+  //         break;
+        
+  //       case "Other":
+  //         this.showResults(this.pd.data.frequency)
+  //         break;
+        
+        
+  //       default:
+  //         // code...
+  //         break;
+  //     }
+
+  //   }
+  // }
+
+  showResults(frequency: string) {
     console.log('nextPayday: ', this.pd.data.nextPayday)
     this.pd.data.nextPayday = DateTools.strToDate(this.pd.data.nextPayday);
     console.log('nextPayday: ',this.pd.data.nextPayday);
     const params = {
       pay:       this.pd.data.paycheckAmount || 0,
       date:      this.pd.data.nextPaydayMoment().format('YYYY-MM-DD'),
-      frequency: this.frequencyOptions.optionAsURL(this.pd.data.frequency)
+      frequency: this.frequencyOptions.optionAsURL(frequency)
     }
 
     if (this.paramValidator.paramsAreValid(params)) {

@@ -42,7 +42,10 @@
       </select>
     </div>
 
-    <div *ngIf="pd.data.frequency" class="form-group row find-btn">
+    <div *ngIf="pd.data.frequency && 
+                pd.data.frequency !== 'Other' ||
+               (pd.data.frequency === 'Other' && )" 
+         class="form-group row find-btn">
       <button (click)="showResults()"
               class="btn btn-primary btn-lg btn-block">
               Find Extra Money!

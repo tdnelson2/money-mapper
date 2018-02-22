@@ -5,7 +5,11 @@ export class FrequencyOptionsService {
 
   constructor() { }
 
-	public frequencyOptions: string[] = ['', 'Every 2 weeks', 'Every Month', 'Other'];
+	public frequencyOptions: string[] = ['', 
+                                       'Every 2 weeks', 
+                                       'Every week', 
+                                       'Every month', 
+                                       'Other'];
 
 	public optionAsURL(str): string {
     return str ? 
