@@ -8,6 +8,7 @@ import { MainComponent } from './main/main.component';
 import { FrequencyOptionsService } from './frequency-options.service';
 import { ParamValidatorService } from './param-validator.service';
 import { PaydaySessionDataService } from './payday-session-data.service';
+import { IntroComponent } from './intro/intro.component';
 import { ResultsComponent } from './results/results.component';
 import { PayRecurrenceService } from './pay-recurrence.service';
 
@@ -33,7 +34,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   declarations: [
     AppComponent,
     MainComponent,
-    ResultsComponent
+    ResultsComponent,
+    IntroComponent
   ],
   imports: [
     BrowserModule,

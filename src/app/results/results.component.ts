@@ -33,9 +33,9 @@ export class ResultsComponent implements OnInit {
     return this._count(item) === 1 ? '' : 's';
   }
 
-  _count(item): number {
+  _count(item: any): number {
 
-    switch (typeof(item)) {
+    switch (String(typeof(item))) {
 
       case 'array':
         return item.length;
