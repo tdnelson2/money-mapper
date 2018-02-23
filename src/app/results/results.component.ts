@@ -25,6 +25,34 @@ export class ResultsComponent implements OnInit {
     private pd: PaydaySessionDataService
 	) { }
 
+  isare(item: any): string {
+    return this._count(item) === 1 ? 'is' : 'are';
+  }
+
+  s(item: any): string {
+    return this._count(item) === 1 ? '' : 's';
+  }
+
+  _count(item): number {
+
+    switch (typeof(item)) {
+
+      case 'array':
+        return item.length;
+
+      case 'object':
+        return item.length;
+
+      case 'number':
+        return item;
+
+      default:
+        return 0;
+    }
+  }
+
+
+
   ngOnInit() {
     this.route.queryParams
       .subscribe(params => {
@@ -38,7 +66,7 @@ export class ResultsComponent implements OnInit {
             this.pd.data.frequency = 'Every month';
             console.log('Month results (no "extra months")');
 
-            // Since MoneyFinder isn't designed for people who 
+            // Since MoneyFinder isn't designed for people who
             // are paid monthly, we'll just generate a hypothetical
             // "if you were paid every two weeks" example
             this.pd.data.frequencyInDays = 14;
@@ -46,7 +74,7 @@ export class ResultsComponent implements OnInit {
           } else {
             if ( params.frequency === '7' ) {
               this.pd.data.frequency = 'Every week';
-            } else ( params.frequency === '14' ) {
+            } else if ( params.frequency === '14' ) {
               this.pd.data.frequency = 'Every 2 weeks';
             }
             this.payRecurrenceService.buildResults(this.pd.data);

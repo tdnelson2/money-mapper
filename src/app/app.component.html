@@ -3,12 +3,12 @@
       <div class="inner">
         <nav class="nav nav-masthead justify-content-center">
           <fa *ngIf="location.path() !== ''"
-              (click)="goBack()" 
-               class="nav-link" 
-               name="arrow-circle-left" 
+              (click)="goBack()"
+               class="nav-link"
+               name="arrow-circle-left"
                size="2x"></fa>
         </nav>
-        <h3 [ngClass]="{'masthead-brand': location.path() !== ''}">MoneyFinder</h3>
+        <h3 [ngClass]="{'masthead-brand': location.path() !== ''}">Monthly Income Planner</h3>
       </div>
     </header>
 

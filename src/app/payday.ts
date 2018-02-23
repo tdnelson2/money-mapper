@@ -6,15 +6,19 @@ import { Month } from './month';
 export class Payday {
 	nextPayday: Date;
 	paycheckAmount: number;
-	normalMonthlyPayAmount: number;
-	outlierMonthPayAmount: number;
-	normalNumberOfPeriods: number;
+	lowMonthPayAmount: number;
+	highMonthPayAmount: number;
+	lowNumberOfPeriods: number;
+	outlierMonthsAreHigh: boolean;
 	frequency: string;
 	frequencyInDays: number;
 	endMoment: Moment;
-	outlierMonths: Month[] = [];
-	totalExtraPay: number;
-	extraMonthsPhrase: string;
+	lowMonths: Month[] = [];
+	highMonths: Month[] = [];
+	totalHighPay: number;
+	totalLowPay: number;
+	highMonthsPhrase: string;
+	lowMonthsPhrase: string;
 	mappedMonths: Month[] = [];
 
 

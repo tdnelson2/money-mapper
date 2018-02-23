@@ -1,6 +1,7 @@
 import { mapToMonths } from './monthly-recurrence-mapper';
 import { Payday } from './payday';
 import { arrayToSentence } from './array-to-sentence';
+import { Month } from './month';
 
 import { Injectable } from '@angular/core';
 
@@ -13,13 +14,14 @@ export class PayRecurrenceService {
 
     // Fill in missing info on this Payday instance
 		payday.endMoment = payday.nextPaydayMoment().clone().add(numberOfDays, 'days');
-    payday.normalNumberOfPeriods = Math.floor(30.42/payday.frequencyInDays);
-		payday.normalMonthlyPayAmount = payday.paycheckAmount * payday.normalNumberOfPeriods;
-		payday.outlierMonthPayAmount = payday.paycheckAmount * (payday.normalNumberOfPeriods+1);
+    payday.lowNumberOfPeriods = Math.floor(30.42/payday.frequencyInDays);
+		payday.lowMonthPayAmount = payday.paycheckAmount * payday.lowNumberOfPeriods;
+		payday.highMonthPayAmount = payday.paycheckAmount * (payday.lowNumberOfPeriods+1);
 
     // Clear the arrays to mitigate the possiblity
     // of old data being added to new data.
-    payday.outlierMonths = [];
+    payday.highMonths = [];
+    payday.lowMonths = [];
     payday.mappedMonths = [];
 
     // Get monthly recurrence data (number of times you get paid each month)
@@ -27,21 +29,31 @@ export class PayRecurrenceService {
                                       payday.endMoment,
                                       payday.frequencyInDays);
 
-    let extraPeriods = 0;
+    let highPeriods = 0;
+    let lowPeriods = 0;
 
     // Find the outlier months
   	for (let month of payday.mappedMonths) {
-  		if (month.recurrenceCount > payday.normalNumberOfPeriods) {
-        console.log(`extra period for ${month.name} is ${month.recurrenceCount - payday.normalNumberOfPeriods}\n normal numer of paydays is ${payday.normalNumberOfPeriods} \n this month's number of paydays is ${month.recurrenceCount}\n\n`);
-        extraPeriods = extraPeriods + (month.recurrenceCount - payday.normalNumberOfPeriods);
-  			payday.outlierMonths.push(month);
-  		}
+  		if (month.recurrenceCount > payday.lowNumberOfPeriods) {
+        console.log(`high period for ${month.name} is ${month.recurrenceCount - payday.lowNumberOfPeriods}\n low numer of paydays is ${payday.lowNumberOfPeriods} \n this month's number of paydays is ${month.recurrenceCount}\n\n`);
+        highPeriods = highPeriods + (month.recurrenceCount - payday.lowNumberOfPeriods);
+        payday.highMonths.push(month);
+  		} else {
+        console.log(`low period for ${month.name} is 1\n high numer of paydays is ${payday.lowNumberOfPeriods+1} \n this month's number of paydays is ${month.recurrenceCount}\n\n`);
+        lowPeriods = lowPeriods + 1;
+        payday.lowMonths.push(month);
+      }
   	}
 
-    const months = payday.outlierMonths.map(m => m.name);
-    payday.extraMonthsPhrase = arrayToSentence(months);
+    payday.outlierMonthsAreHigh = payday.highMonths.length <= payday.lowMonths.length;
 
-  	payday.totalExtraPay = extraPeriods * payday.paycheckAmount;
+    const highMonths = payday.highMonths.map(m => m.name);
+    payday.highMonthsPhrase = arrayToSentence(highMonths);
+
+    const lowMonths = payday.lowMonths.map(m => m.name);
+    payday.lowMonthsPhrase = arrayToSentence(lowMonths);
+
+  	payday.totalHighPay = highPeriods * payday.paycheckAmount;
 
     return payday;
 	}
