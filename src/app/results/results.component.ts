@@ -29,11 +29,29 @@ export class ResultsComponent implements OnInit {
     this.route.queryParams
       .subscribe(params => {
 		  	if ( this.paramValidator.paramsAreValid(params) ) {
+
           this.pd.data.nextPayday = moment(params.date, 'YYYY-MM-DD').toDate();
           this.pd.data.paycheckAmount = +params.pay;
           this.pd.data.frequencyInDays = +params.frequency;
-          this.payRecurrenceService.buildResults(this.pd.data);
-          console.log(this.pd.data);
+
+          if ( params.frequency === '-1' ) {
+            this.pd.data.frequency = 'Every month';
+            console.log('Month results (no "extra months")');
+
+            // Since MoneyFinder isn't designed for people who 
+            // are paid monthly, we'll just generate a hypothetical
+            // "if you were paid every two weeks" example
+            this.pd.data.frequencyInDays = 14;
+            this.payRecurrenceService.buildResults(this.pd.data);
+          } else {
+            if ( params.frequency === '7' ) {
+              this.pd.data.frequency = 'Every week';
+            } else ( params.frequency === '14' ) {
+              this.pd.data.frequency = 'Every 2 weeks';
+            }
+            this.payRecurrenceService.buildResults(this.pd.data);
+            console.log(this.pd.data);
+          }
 		  	} else {
           this.router.navigateByUrl('/');
 		  	}

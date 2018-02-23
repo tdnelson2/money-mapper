@@ -51,6 +51,7 @@ export class MainComponent implements OnInit {
 
       case "Every month":
         console.log('every month method will be called');
+        this.showResults(-1)
         break;
 
       default:
