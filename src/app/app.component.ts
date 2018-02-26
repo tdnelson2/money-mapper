@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import {Location, LocationStrategy, HashLocationStrategy} from '@angular/common';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
@@ -8,7 +8,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [Location, {provide: LocationStrategy, useClass: PathLocationStrategy}]
+  providers: [Location, {provide: LocationStrategy, useClass: HashLocationStrategy}]
 })
 export class AppComponent {
   title = 'app';

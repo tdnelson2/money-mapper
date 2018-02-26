@@ -12,7 +12,7 @@
       <label for="start-date-input">When is your next payday?</label>
       <input [ngModel]="pd.data.nextPayday | date:'yyyy-MM-dd'"
              (ngModelChange)="pd.data.nextPayday = $event"
-             [value]="dt | date:'yyyy-MM-dd'"
+             [value]="pd.data.nextPayday | date:'yyyy-MM-dd'"
              name="start-date"
              class="form-control no-spinners"
              type="date"
@@ -60,7 +60,7 @@
          class="form-group row find-btn">
       <button (click)="nextView()"
               class="btn btn-primary btn-lg btn-block">
-              Find Extra Money!
+              Map My Income!
       </button>
     </div>
 

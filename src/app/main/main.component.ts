@@ -23,7 +23,7 @@ export class MainComponent implements OnInit {
     private frequencyOptions: FrequencyOptionsService,
     private paramValidator:   ParamValidatorService,
     private router:           Router,
-    private pd:               PaydaySessionDataService
+    public  pd:               PaydaySessionDataService
     ) { }
 
   selectAllContent($event) {

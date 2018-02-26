@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -42,7 +44,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     AppRoutingModule,
     FormsModule,
     CurrencyMaskModule,
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production})
   ],
   providers: [
     FrequencyOptionsService,

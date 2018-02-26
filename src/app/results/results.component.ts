@@ -22,7 +22,7 @@ export class ResultsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private payRecurrenceService: PayRecurrenceService,
-    private pd: PaydaySessionDataService
+    public  pd: PaydaySessionDataService
 	) { }
 
   isare(item: any): string {
@@ -66,7 +66,7 @@ export class ResultsComponent implements OnInit {
             this.pd.data.frequency = 'Every month';
             console.log('Month results (no "extra months")');
 
-            // Since MoneyFinder isn't designed for people who
+            // Since this app isn't designed for people who
             // are paid monthly, we'll just generate a hypothetical
             // "if you were paid every two weeks" example
             this.pd.data.frequencyInDays = 14;
@@ -81,7 +81,7 @@ export class ResultsComponent implements OnInit {
             console.log(this.pd.data);
           }
 		  	} else {
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('main');
 		  	}
       });
   }
