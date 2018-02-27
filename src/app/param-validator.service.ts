@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { isNumber, isNaN, has } from 'lodash';
 
-import { DateTools }               from './date-tools';
-import { FrequencyOptionsService } from './frequency-options.service';
 import { arrayToSentence }         from './array-to-sentence';
 
 @Injectable()
@@ -27,9 +25,7 @@ export class ParamValidatorService {
   }
 
 
-  constructor(
-  	private frequencyOptions: FrequencyOptionsService
-  	) { }
+  constructor( ) { }
 
   paramsAreValid(p):boolean {
     let missing = this.checkForMissingParams(p);
@@ -50,7 +46,7 @@ export class ParamValidatorService {
 
       if (String(p.date) == 'NaN' || !p.date) {
         errors.push(`Error parsing date: no value found.`);
-      } else if (!DateTools.isValidDate(p.date)) {
+      } else if (!this.isValidDate(p.date)) {
         errors.push(`'${p.date}' is not a valid date.`);
       }
 
@@ -74,6 +70,15 @@ export class ParamValidatorService {
       }
     }
     return missing;
+  }
+
+  // Adapted from https://stackoverflow.com/questions/18758772/how-do-i-validate-a-date-in-this-format-yyyy-mm-dd-using-jquery
+  private isValidDate(dateString): boolean {
+    let regEx = /^\d{4}-\d{2}-\d{2}$/;
+    if(!dateString.match(regEx)) return false;  // Invalid format
+    let d = new Date(dateString);
+    if(!d.getTime() && d.getTime() !== 0) return false; // Invalid date
+    return d.toISOString().slice(0,10) === dateString;
   }
 
 }

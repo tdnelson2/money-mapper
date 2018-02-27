@@ -1,23 +1,21 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { BrowserModule }       from '@angular/platform-browser';
+import { NgModule }            from '@angular/core';
+import { FormsModule }         from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+import { environment }         from '../environments/environment';
 
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-import { MainComponent } from './main/main.component';
-import { FrequencyOptionsService } from './frequency-options.service';
+import { AppComponent }          from './app.component';
+import { AppRoutingModule }      from './app-routing.module';
+import { MainComponent }         from './main/main.component';
 import { ParamValidatorService } from './param-validator.service';
-import { PaydaySessionDataService } from './payday-session-data.service';
-import { IntroComponent } from './intro/intro.component';
-import { ResultsComponent } from './results/results.component';
-import { PayRecurrenceService } from './pay-recurrence.service';
+import { PaydayService }         from './payday.service';
+import { IntroComponent }        from './intro/intro.component';
+import { ResultsComponent }      from './results/results.component';
 
 
-import { CurrencyMaskModule } from "ng2-currency-mask";
+import { CurrencyMaskModule }                       from "ng2-currency-mask";
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ng2-currency-mask/src/currency-mask.config";
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { AngularFontAwesomeModule }                 from 'angular-font-awesome';
 
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
@@ -48,10 +46,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production})
   ],
   providers: [
-    FrequencyOptionsService,
     ParamValidatorService,
-    PayRecurrenceService,
-    PaydaySessionDataService,
+    PaydayService,
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig}
   ],
   bootstrap: [AppComponent]

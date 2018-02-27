@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component }                                      from '@angular/core';
 import {Location, LocationStrategy, HashLocationStrategy} from '@angular/common';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 @Component({

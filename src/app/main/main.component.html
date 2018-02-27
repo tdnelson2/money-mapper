@@ -10,9 +10,9 @@
   <form>
     <div class="form-group row">
       <label for="start-date-input">When is your next payday?</label>
-      <input [ngModel]="pd.data.nextPayday | date:'yyyy-MM-dd'"
-             (ngModelChange)="pd.data.nextPayday = $event"
-             [value]="pd.data.nextPayday | date:'yyyy-MM-dd'"
+      <input [ngModel]="pd.nextPayday | date:'yyyy-MM-dd'"
+             (ngModelChange)="pd.nextPayday = $event"
+             [value]="pd.nextPayday | date:'yyyy-MM-dd'"
              name="start-date"
              class="form-control no-spinners"
              type="date"
@@ -21,7 +21,7 @@
 
     <div class="form-group row">
       <label for="pay-amt-input">What is your paycheck amount?</label>
-      <input currencyMask [(ngModel)]="pd.data.paycheckAmount"
+      <input currencyMask [(ngModel)]="pd.paycheckAmount"
              (focus)="selectAllContent($event)"
              (mouseup)="$event.preventDefault()"
              name="pay-amt"
@@ -31,21 +31,21 @@
 
     <div class="form-group row">
       <label for="select-pay-frequency">How often are you paid?</label>
-      <select [(ngModel)]="pd.data.frequency"
+      <select [(ngModel)]="pd.frequency"
               name="pay-frequency"
               class="form-control"
               id="select-pay-frequency">
-        <option *ngFor="let option of payFrequencyOptions"
+        <option *ngFor="let option of pd.frequencyOptions"
                 [ngValue]="option">
                 {{option}}
         </option>
       </select>
     </div>
 
-    <div *ngIf="pd.data.frequency === 'Other'"
+    <div *ngIf="pd.frequency === 'Other'"
          class="form-group row">
       <label for="specify-pay-frequency">How many days between paydays?</label>
-      <input [(ngModel)]="pd.data.frequencyInDays"
+      <input [(ngModel)]="pd.frequencyInDays"
              name="other-pay-frequency"
              class="form-control no-spinners"
              type="number"
@@ -53,12 +53,12 @@
              id="specify-pay-frequency">
     </div>
 
-    <div *ngIf="(pd.data.frequency &&
-                 pd.data.frequency !== 'Other') ||
-                (pd.data.frequencyInDays &&
-                 pd.data.frequency === 'Other')"
+    <div *ngIf="(pd.frequency &&
+                 pd.frequency !== 'Other') ||
+                (pd.frequencyInDays &&
+                 pd.frequency === 'Other')"
          class="form-group row find-btn">
-      <button (click)="nextView()"
+      <button (click)="showResults()"
               class="btn btn-primary btn-lg btn-block">
               Map My Income!
       </button>

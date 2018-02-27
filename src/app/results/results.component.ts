@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit }      from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import 'rxjs/add/operator/filter';
-import { CurrencyPipe } from '@angular/common';
-import * as moment from 'moment/moment';
+import { CurrencyPipe }           from '@angular/common';
+import * as moment                from 'moment/moment';
 
+import 'rxjs/add/operator/filter';
 
 import { ParamValidatorService } from '../param-validator.service';
-import { PayRecurrenceService } from '../pay-recurrence.service';
-import { Payday } from '../payday';
-import { PaydaySessionDataService } from '../payday-session-data.service';
+import { payRecurrence }         from '../pay-recurrence';
+import { PaydayService }         from '../payday.service';
 
 @Component({
   selector: 'app-results',
@@ -21,8 +20,7 @@ export class ResultsComponent implements OnInit {
   	private paramValidator: ParamValidatorService,
     private route: ActivatedRoute,
     private router: Router,
-    private payRecurrenceService: PayRecurrenceService,
-    public  pd: PaydaySessionDataService
+    public  pd: PaydayService
 	) { }
 
   isare(item: any): string {
@@ -58,28 +56,25 @@ export class ResultsComponent implements OnInit {
       .subscribe(params => {
 		  	if ( this.paramValidator.paramsAreValid(params) ) {
 
-          this.pd.data.nextPayday = moment(params.date, 'YYYY-MM-DD').toDate();
-          this.pd.data.paycheckAmount = +params.pay;
-          this.pd.data.frequencyInDays = +params.frequency;
+          this.pd.nextPayday = moment(params.date, 'YYYY-MM-DD').toDate();
+          this.pd.paycheckAmount = +params.pay;
+          this.pd.frequencyInDays = +params.frequency;
 
           if ( params.frequency === '-1' ) {
-            this.pd.data.frequency = 'Every month';
-            console.log('Month results (no "extra months")');
+            this.pd.frequency = 'Every month';
 
             // Since this app isn't designed for people who
             // are paid monthly, we'll just generate a hypothetical
             // "if you were paid every two weeks" example
-            this.pd.data.frequencyInDays = 14;
-            this.payRecurrenceService.buildResults(this.pd.data);
+            this.pd.frequencyInDays = 14;
           } else {
             if ( params.frequency === '7' ) {
-              this.pd.data.frequency = 'Every week';
+              this.pd.frequency = 'Every week';
             } else if ( params.frequency === '14' ) {
-              this.pd.data.frequency = 'Every 2 weeks';
+              this.pd.frequency = 'Every 2 weeks';
             }
-            this.payRecurrenceService.buildResults(this.pd.data);
-            console.log(this.pd.data);
           }
+          payRecurrence(this.pd);
 		  	} else {
           this.router.navigateByUrl('main');
 		  	}

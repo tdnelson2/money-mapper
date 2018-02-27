@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
 
-import { DateTools }                from '../date-tools';
-import { FrequencyOptionsService }  from '../frequency-options.service';
-import { Payday }                   from '../payday';
 import { ParamValidatorService }    from '../param-validator.service';
-import { PaydaySessionDataService } from '../payday-session-data.service';
+import { PaydayService }            from '../payday.service';
 
 import * as moment from 'moment/moment';
 
@@ -16,63 +13,28 @@ import * as moment from 'moment/moment';
 })
 export class MainComponent implements OnInit {
 
-  payFrequencyOptions: string[] = this.frequencyOptions.frequencyOptions;
   errors : string[] = [];
 
   constructor(
-    private frequencyOptions: FrequencyOptionsService,
     private paramValidator:   ParamValidatorService,
     private router:           Router,
-    public  pd:               PaydaySessionDataService
+    public  pd:               PaydayService
     ) { }
 
   selectAllContent($event) {
     $event.target.select();
   }
 
-  nextView() {
-
-    switch (this.pd.data.frequency) {
-
-      case "Every 2 weeks":
-        console.log(`will be called with 14 days`);
-        this.showResults(14)
-        break;
-
-      case "Every week":
-        console.log(`will be called with 7 days`);
-        this.showResults(7)
-        break;
-
-      case "Other":
-        console.log(`will be called with ${this.pd.data.frequencyInDays} days`);
-        this.showResults(+this.pd.data.frequencyInDays)
-        break;
-
-      case "Every month":
-        console.log('every month method will be called');
-        this.showResults(-1)
-        break;
-
-      default:
-        // code...
-        break;
-    }
-  }
-
-  showResults(frequency: number) {
-    console.log('nextPayday: ', this.pd.data.nextPayday)
-    this.pd.data.nextPayday = DateTools.strToDate(this.pd.data.nextPayday);
-    console.log('nextPayday: ',this.pd.data.nextPayday);
+  showResults() {
+    let frequency = this.pd.getFrequencyInDays();
+    this.pd.nextPayday = this.strToDate(this.pd.nextPayday);
     const params = {
-      pay:       this.pd.data.paycheckAmount || 0,
-      date:      this.pd.data.nextPaydayMoment().format('YYYY-MM-DD'),
+      pay:       this.pd.paycheckAmount || 0,
+      date:      this.pd.nextPaydayMoment().format('YYYY-MM-DD'),
       frequency: frequency
     }
 
     if (this.paramValidator.paramsAreValid(params)) {
-      this.pd.data.nextPayday =   DateTools
-                                        .strToDate(this.pd.data.nextPayday);
       const url = "/results?pay="+params.pay+
                          "&date="+params.date+
                     "&frequency="+params.frequency;
@@ -83,12 +45,18 @@ export class MainComponent implements OnInit {
     }
   }
 
+  private strToDate(date): Date {
+    return String(typeof(date) === 'string') ?
+           moment(date, 'YYYY-MM-DD').toDate() :
+           date;
+  }
+
   ngOnInit() {
     if (this.paramValidator.isError()) {
       this.errors = this.paramValidator.getErrors();
     }
-      this.pd.data.nextPayday = this.pd.data.nextPayday || new Date();
-      this.pd.data.paycheckAmount = this.pd.data.paycheckAmount || 0;
-      this.pd.data.frequency = undefined;
+      this.pd.nextPayday = this.pd.nextPayday || new Date();
+      this.pd.paycheckAmount = this.pd.paycheckAmount || 0;
+      this.pd.frequency = undefined;
   }
 }

@@ -6,6 +6,7 @@ export class Month {
 
   recurrenceCount: number = 0;
   recurrenceDates: Moment[] = [];
+  index: number;
   name: string;
   year: string;
 }
