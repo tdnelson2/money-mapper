@@ -6,7 +6,7 @@ import * as moment                from 'moment/moment';
 import 'rxjs/add/operator/filter';
 
 import { ParamValidatorService } from '../param-validator.service';
-import { payRecurrence }         from '../pay-recurrence';
+import { mapPayRecurrence }         from '../map-pay-recurrence';
 import { PaydayService }         from '../payday.service';
 
 @Component({
@@ -74,7 +74,7 @@ export class ResultsComponent implements OnInit {
               this.pd.frequency = 'Every 2 weeks';
             }
           }
-          payRecurrence(this.pd);
+          mapPayRecurrence(this.pd);
 		  	} else {
           this.router.navigateByUrl('main');
 		  	}

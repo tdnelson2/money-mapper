@@ -11,7 +11,8 @@ export const mapMonthlyRecurrences = (start: Moment,
 
   let current = start.clone();
   let recurrences: Month[] = [];
-  let currentMonth = start.clone().subtract(1, 'month');
+  let currentMonth = start.clone();
+  currentMonth.subtract(currentMonth.date()-1, 'days').subtract(1, 'month');
 
   if (beginningOfMonth) {
 
@@ -21,7 +22,9 @@ export const mapMonthlyRecurrences = (start: Moment,
       if (current.date() > period) {
 
           // Find the number of prior periods in the month.
-          let recurrenceCount = Math.floor(start.date()/period);
+          // Since months are not 0 based (no such thing as the
+          // 0th day of the month), we need to subtract one day.
+          let recurrenceCount = Math.floor((start.date()-1)/period);
 
           // Subtract those periods to get the earliest
           // occurence in `start`'s initial month.
@@ -43,14 +46,18 @@ export const mapMonthlyRecurrences = (start: Moment,
   }
 
   const monthsAreEqual = ():boolean => {
-    return (currentMonth.year()  === current.year()) &&
+    let r = (currentMonth.year()  === current.year()) &&
            (currentMonth.month() === current.month());
+    return r;
   }
 
 
   // Generate an array containing recurrence data for each month
   // in which a recurrence occurs..
+  let loops = 0;
   while (end.diff(current) > 0) {
+    loops++
+    console.log(`\nthis loop is ${loops}\n`);
 
       if (!monthsAreEqual()) {
 

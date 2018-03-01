@@ -4,7 +4,7 @@ import { arrayToSentence }        from './array-to-sentence';
 import { Month }                  from './month';
 
 
-export const payRecurrence = (payday: PaydayService,
+export const mapPayRecurrence = (payday: PaydayService,
                               numberOfDays: number=365):PaydayService => {
 
   // Fill in missing info on this Payday instance
