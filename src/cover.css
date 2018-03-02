@@ -2,9 +2,31 @@
  * Globals
  */
 
- * {
-  font-family: 'Source Sans Pro', sans-serif;
- }
+@font-face {
+  font-family: sourceSansProRegular;
+  src: url(SourceSansPro-Regular.ttf);
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: sourceSansProExtraLight;
+  src: url(SourceSansPro-ExtraLight.ttf);
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: sourceSansProSemiBold;
+  src: url(SourceSansPro-SemiBold.ttf);
+  font-weight: 600;
+}
+
+* {
+  font-family: sourceSansProExtraLight;
+}
+
+.semi-bold {
+  font-family: sourceSansProSemiBold;
+}
 
 /* Links */
 a,
@@ -54,6 +76,11 @@ body {
 /*
  * Header
  */
+
+.cover-heading {
+  font-family: sourceSansProRegular;
+}
+
 .masthead {
   margin-bottom: 2rem;
 }

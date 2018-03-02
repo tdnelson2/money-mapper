@@ -18,7 +18,10 @@
         "favicon-32x32.png",
         "mstile-150x150.png",
         "safari-pinned-tab.svg",
-        "site.webmanifest"
+        "site.webmanifest",
+        "SourceSansPro-ExtraLight.ttf",
+        "SourceSansPro-Regular.ttf",
+        "SourceSansPro-SemiBold.ttf"
       ],
       "index": "index.html",
       "main": "main.ts",
