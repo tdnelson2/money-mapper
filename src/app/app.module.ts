@@ -1,21 +1,24 @@
-import { BrowserModule }       from '@angular/platform-browser';
-import { NgModule }            from '@angular/core';
-import { FormsModule }         from '@angular/forms';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment }         from '../environments/environment';
+import { BrowserModule }           from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgModule }                from '@angular/core';
+import { FormsModule }             from '@angular/forms';
 
-import { AppComponent }          from './app.component';
-import { AppRoutingModule }      from './app-routing.module';
-import { MainComponent }         from './main/main.component';
-import { ParamValidatorService } from './param-validator.service';
-import { PaydayService }         from './payday.service';
-import { IntroComponent }        from './intro/intro.component';
-import { ResultsComponent }      from './results/results.component';
+import { AppComponent }                       from './app.component';
+import { IntroComponent }                     from './intro/intro.component';
+import { ToastMessagesComponent }             from './toast-messages/toast-messages.component';
+import { ResultsComponent }                   from './results/results.component';
+import { AppRoutingModule }                   from './app-routing.module';
+import { MainComponent }                      from './main/main.component';
+import { ParamValidatorService }              from './param-validator.service';
+import { PaydayService }                      from './payday.service';
 
 
 import { CurrencyMaskModule }                       from "ng2-currency-mask";
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ng2-currency-mask/src/currency-mask.config";
+
 import { AngularFontAwesomeModule }                 from 'angular-font-awesome';
+
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
@@ -35,7 +38,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     AppComponent,
     MainComponent,
     ResultsComponent,
-    IntroComponent
+    IntroComponent,
+    ToastMessagesComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +47,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     FormsModule,
     CurrencyMaskModule,
     AngularFontAwesomeModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production})
+    BrowserAnimationsModule,
+    ToastModule.forRoot()
   ],
   providers: [
     ParamValidatorService,

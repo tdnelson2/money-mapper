@@ -1,0 +1,7 @@
+{
+ "ignore": ["dist/*", "sw.data.json"],
+ "events": {
+     "restart": "node sw-updater.js",
+     "start": "node sw-updater.js"
+   }
+}

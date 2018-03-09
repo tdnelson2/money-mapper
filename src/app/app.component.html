@@ -1,24 +1,25 @@
-  <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
-    <header class="masthead mb-auto">
-      <div class="inner">
-        <nav class="nav nav-masthead justify-content-center">
-          <fa *ngIf="location.path() !== ''"
-              (click)="goBack()"
-               class="nav-link"
-               name="arrow-circle-left"
-               size="2x"></fa>
-        </nav>
-        <h3 [ngClass]="{'masthead-brand': location.path() !== ''}"><span class="semi-bold">Money</span> Mapper</h3>
-      </div>
-    </header>
+<div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+  <header class="masthead mb-auto">
+    <div class="inner">
+      <nav class="nav nav-masthead justify-content-center">
+        <fa *ngIf="location.path() !== ''"
+            (click)="goBack()"
+             class="nav-link"
+             name="arrow-circle-left"
+             size="2x"></fa>
+      </nav>
+      <h3 [ngClass]="{'masthead-brand': location.path() !== ''}"><span class="semi-bold">Money</span> Mapper</h3>
+    </div>
+  </header>
 
-    <main role="main" class="inner cover">
-      <router-outlet></router-outlet>
-    </main>
+  <main role="main" class="inner cover">
+    <router-outlet></router-outlet>
+  </main>
 
-    <footer class="mastfoot mt-auto">
-      <div class="inner">
-        <p>Template by <a href="https://twitter.com/mdo">@mdo.</a>App by <a href="https://twitter.com/developwithtim">@developwithtim.</a></p>
-      </div>
-    </footer>
-  </div>
+  <footer class="mastfoot mt-auto">
+    <div class="inner">
+      <p>Template by <a href="https://twitter.com/mdo">@mdo.</a>App by <a href="https://twitter.com/developwithtim">@developwithtim.</a></p>
+    </div>
+  </footer>
+  <app-toast-messages></app-toast-messages>
+</div>
