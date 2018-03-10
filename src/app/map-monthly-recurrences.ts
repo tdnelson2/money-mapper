@@ -53,11 +53,8 @@ export const mapMonthlyRecurrences = (start: Moment,
 
 
   // Generate an array containing recurrence data for each month
-  // in which a recurrence occurs..
-  let loops = 0;
+  // in which a recurrence occurs.
   while (end.diff(current) > 0) {
-    loops++
-    console.log(`\nthis loop is ${loops}\n`);
 
       if (!monthsAreEqual()) {
 
