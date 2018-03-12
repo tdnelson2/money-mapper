@@ -1,79 +1,54 @@
 const Handlebars = require('handlebars');
 const _ = require('lodash');
 const fs = require('fs-extra');
+const co = require('co');
 const distFolder = './dist/';
 const savePath = './dist/sw.js';
 const swPath = './sw.js';
-const swDataPath = './sw.data.json';
+const dataPath = './sw.data.json';
 const ignore = ['sw.js', 'index.html'];
 
-let swSource;
-let swResult;
-let swData;
+co(function* () {
 
-fs.readFile(swPath, 'utf8')
+  // `swData`: SW metadata containing the cache  
+  // version number and previous state of cached files.
+  let swData = { cacheVersion:0, cachePaths:[] }; 
+  try {
+    const swDataJSON = yield fs.readFile(dataPath, 'utf8');
+    swData = JSON.parse(swDataJSON);
+  } catch (e) {}
 
-  // Open the service worker template.
-  .then(swSource => {
-    this.swSource = swSource;
-    return fs.readFile(swDataPath, 'utf8')
-  }, err => {
-    console.log('service worker template could not be found');
-  })
+  // `swSource`: The SW template.
+  // `cPaths`: A list of files in the `dist` directory. 
+  const [swSource, cPaths] = yield [fs.readFile(swPath, 'utf8'),
+                                    fs.readdir(distFolder)];
 
-  // Open the service worker metadata file containing data about
-  // the previous state of cached files and cache version number.
-  .then(swData => {
-    this.swData = JSON.parse(swData);
-    return fs.readdir(distFolder);
-  }, err => {
+  // Filter out the files in the ignore list.
+  const fcPaths = cPaths.filter(p => !ignore.includes(p));
 
-    // Create the metadata if it doesn't already exist.
-    this.swData = {
-      cacheVersion:0,
-      cachePaths:[]
-    };
-    return fs.readdir(distFolder);
-  })
+  // Increment the version number if changes are found.
+  const version = _.isEqual(fcPaths, swData.cachePaths) ?
+                            swData.cacheVersion :
+                            ++swData.cacheVersion;
 
-  // Get a list of files in the `dist` directory.
-  // We'll use this list to populate the list of files
-  // that the service worker will need to cache. 
-  .then(cPaths => {
-    const fcPaths = cPaths.filter(p => !ignore.includes(p));
+  // Update the cached files list so it 
+  // can be saved for future use.
+  swData.cachePaths = fcPaths;
 
-    // If contents of the directory have 
-    // changed, bump the version number.
-    const version = _.isEqual(fcPaths, this.swData.cachePaths) ?
-                              this.swData.cacheVersion :
-                              ++this.swData.cacheVersion;
-
-    // Update the cached files list so it can be saved
-    // for future use.
-    this.swData.cachePaths = fcPaths;
-
-    // Populate the service worker template file using data computed
-    // by comparing the metadata file against the current state.
-    const template = Handlebars.compile(this.swSource);
-    this.swResult = template({
-      "cacheVersion":version,
-      "cachePaths":fcPaths
-    });
-
-    // Write the metadata file.
-    return fs.outputFile(swDataPath, JSON.stringify(this.swData), 'utf8');
-  })
-  .then(() => {
-    console.log('Service worker metadata written succesfully')
-
-    // Write the new service worker file.
-    return fs.outputFile(savePath, this.swResult, 'utf8');
-  }, err => {
-    console.log('There was an error writting the service worker metadata: ', err);
-  })
-  .then(() => {
-    console.log('Service worker written succesfully')
-  })
-  .catch(err => {
-    console.log('There was an error:', err);
+  // Populate the service worker template using data computed
+  // by comparing the metadata against the current state.
+  const template = Handlebars.compile(swSource);
+  const swResult = template({
+    "cacheVersion":version,
+    "cachePaths":fcPaths
   });
+
+  // Output to file.
+  const res = yield [fs.outputFile(dataPath, JSON.stringify(swData), 'utf8'),
+                     fs.outputFile(savePath, swResult, 'utf8')];
+
+  console.log('Service Worker updated succesfully');
+
+}).catch((err) => {
+  console.log(err);
+});
