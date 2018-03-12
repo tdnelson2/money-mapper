@@ -6,7 +6,7 @@ const distFolder = './dist/';
 const savePath = './dist/sw.js';
 const swPath = './sw.js';
 const dataPath = './sw.data.json';
-const ignore = ['sw.js', 'index.html'];
+const ignore = ['sw.js'];
 
 co(function* () {
 
