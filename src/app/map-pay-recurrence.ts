@@ -15,17 +15,14 @@ export const mapPayRecurrence = (payday: PaydayService,
 
   // Clear the arrays to mitigate the possiblity
   // of old data being added to new data.
-  payday.highMonths = [];
-  payday.lowMonths = [];
-  payday.mappedMonths = [];
+  [payday.highMonths, payday.lowMonths, payday.mappedMonths] = [[], [], []];
 
   // Get monthly recurrence data (number of times you get paid each month)
   payday.mappedMonths = mapMonthlyRecurrences(payday.nextPaydayMoment(),
                                               payday.endMoment,
                                               payday.frequencyInDays);
 
-  let highPeriods = 0;
-  let lowPeriods = 0;
+  let [highPeriods, lowPeriods] = [0, 0];
 
   // Find the outlier months
   for (let month of payday.mappedMonths) {

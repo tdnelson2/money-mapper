@@ -9,8 +9,10 @@ import { ToastMessagesComponent }             from './toast-messages/toast-messa
 import { ResultsComponent }                   from './results/results.component';
 import { AppRoutingModule }                   from './app-routing.module';
 import { MainComponent }                      from './main/main.component';
+import { TickerComponent }                    from './ticker/ticker.component';
 import { ParamValidatorService }              from './param-validator.service';
 import { PaydayService }                      from './payday.service';
+import { TickerWebsocketService }             from './ticker-websocket.service';
 
 
 import { CurrencyMaskModule }                       from "ng2-currency-mask";
@@ -39,7 +41,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     MainComponent,
     ResultsComponent,
     IntroComponent,
-    ToastMessagesComponent
+    ToastMessagesComponent,
+    TickerComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +56,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   providers: [
     ParamValidatorService,
     PaydayService,
+    TickerWebsocketService,
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig}
   ],
   bootstrap: [AppComponent]
