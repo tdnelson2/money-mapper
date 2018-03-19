@@ -1,0 +1,30 @@
+@keyframes fadeAnimation {
+  0%   { opacity:0; }
+  25%  { opacity:1; }
+  75%  { opacity:1; }
+  100% { opacity:0; }
+}
+@-o-keyframes fadeAnimation{
+  0%   { opacity:0; }
+  25%  { opacity:1; }
+  75%  { opacity:1; }
+  100% { opacity:0; }
+}
+@-moz-keyframes fadeAnimation{
+  0%   { opacity:0; }
+  25%  { opacity:1; }
+  75%  { opacity:1; }
+  100% { opacity:0; }
+}
+@-webkit-keyframes fadeAnimation{
+  0%   { opacity:0; }
+  25%  { opacity:1; }
+  75%  { opacity:1; }
+  100% { opacity:0; }
+}
+.fade-animation {
+   -webkit-animation: fadeAnimation 10s infinite;
+   -moz-animation: fadeAnimation 10s infinite;
+   -o-animation: fadeAnimation 10s infinite;
+    animation: fadeAnimation 10s infinite;
+}

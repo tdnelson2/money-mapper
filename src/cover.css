@@ -28,6 +28,10 @@
   font-family: sourceSansProSemiBold;
 }
 
+.regular {
+  font-family: sourceSansProRegular;
+}
+
 /* Links */
 a,
 a:focus,
@@ -137,5 +141,6 @@ body {
  * Footer
  */
 .mastfoot {
-  color: rgba(255, 255, 255, .5);
+  /*color: rgba(255, 255, 255, .5);*/
+  color: #fff;
 }
