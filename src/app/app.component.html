@@ -1,25 +1,35 @@
-<div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
-  <header class="masthead mb-auto">
-    <div class="inner">
-      <nav class="nav nav-masthead justify-content-center">
-        <fa *ngIf="location.path() !== ''"
-            (click)="goBack()"
-             class="nav-link"
-             name="arrow-circle-left"
-             size="2x"></fa>
-      </nav>
-      <h3 [ngClass]="{'masthead-brand': location.path() !== ''}"><span class="semi-bold">Money</span> Mapper</h3>
-    </div>
-  </header>
+<div [ngStyle]="{ 'background-image':  'url(' + photoB.url + ')' }"
+         [ngClass]="photoB.classes">
 
-  <main role="main" class="inner cover">
-    <router-outlet></router-outlet>
-  </main>
+  <div [ngStyle]="{ 'background-image':  'url(' + photoA.url + ')' }"
+       [ngClass]="photoA.classes">
 
-  <footer class="mastfoot mt-auto">
-    <div class="inner">
-      <app-nyticker></app-nyticker>
+    <div class="solid">
+      <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+        <header class="masthead mb-auto">
+          <div class="inner">
+            <nav class="nav nav-masthead justify-content-center">
+              <fa *ngIf="location.path() !== ''"
+                  (click)="goBack()"
+                   class="nav-link"
+                   name="arrow-circle-left"
+                   size="2x"></fa>
+            </nav>
+            <h3 [ngClass]="{'masthead-brand': location.path() !== ''}"><span class="semi-bold">Money</span> Mapper</h3>
+          </div>
+        </header>
+
+        <main role="main" class="inner cover">
+          <router-outlet></router-outlet>
+        </main>
+
+        <footer class="mastfoot mt-auto">
+          <div class="inner">
+            <app-nyticker></app-nyticker>
+          </div>
+        </footer>
+        <app-toast-messages></app-toast-messages>
+      </div>
     </div>
-  </footer>
-  <app-toast-messages></app-toast-messages>
+  </div>
 </div>

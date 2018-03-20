@@ -13,6 +13,7 @@ import { MainComponent }                      from './main/main.component';
 import { ParamValidatorService }              from './param-validator.service';
 import { PaydayService }                      from './payday.service';
 import { NytimesService }                     from './nytimes.service';
+import { PhotoService }                       from './photo.service';
 
 
 import { CurrencyMaskModule }                       from "ng2-currency-mask";
@@ -59,6 +60,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     ParamValidatorService,
     PaydayService,
     NytimesService,
+    PhotoService,
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig}
   ],
   bootstrap: [AppComponent]

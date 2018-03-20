@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NytimesService } from '../nytimes.service';
 
-import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
