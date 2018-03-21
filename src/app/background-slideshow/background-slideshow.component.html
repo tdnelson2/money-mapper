@@ -1,0 +1,7 @@
+<div class="overlay-solid"></div>
+<div *ngIf="photoA && photoB">
+	<div class="bg" [@crossfade]="state1" [ngStyle]="photoA.style"></div>
+	<div class="bg" [@crossfade]="state2" [ngStyle]="photoB.style"></div>
+</div>
+<div class="base-solid"></div>
+

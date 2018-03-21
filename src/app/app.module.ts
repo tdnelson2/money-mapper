@@ -10,6 +10,8 @@ import { ToastMessagesComponent }             from './toast-messages/toast-messa
 import { ResultsComponent }                   from './results/results.component';
 import { AppRoutingModule }                   from './app-routing.module';
 import { MainComponent }                      from './main/main.component';
+import { NytickerComponent }                  from './nyticker/nyticker.component';
+import { BackgroundSlideshowComponent }       from './background-slideshow/background-slideshow.component';
 import { ParamValidatorService }              from './param-validator.service';
 import { PaydayService }                      from './payday.service';
 import { NytimesService }                     from './nytimes.service';
@@ -22,7 +24,6 @@ import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ng2-currency-mask/src/
 import { AngularFontAwesomeModule }                 from 'angular-font-awesome';
 
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
-import { NytickerComponent } from './nyticker/nyticker.component';
 
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
@@ -44,7 +45,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     ResultsComponent,
     IntroComponent,
     ToastMessagesComponent,
-    NytickerComponent
+    NytickerComponent,
+    BackgroundSlideshowComponent
   ],
   imports: [
     BrowserModule,

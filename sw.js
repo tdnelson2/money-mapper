@@ -11,10 +11,13 @@ const allCaches = [
   contentImgsCache
 ];
 
+let usedBGPhotos = [];
+
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(staticCacheName).then(function(cache) {
       return cache.addAll([
+        'https://picsum.photos/list',
     {{#each cachePaths}}
         '{{this}}',
     {{/each}}
@@ -46,8 +49,8 @@ self.addEventListener('fetch', function(event) {
     return;
   }
 
-  if (requestUrl.startsWith('https://picsum.photos/')) {
-    event.resondWith(servePhoto(event.request));
+  if (requestUrl.href.startsWith('https://picsum.photos/') && requestUrl.href !== 'https://picsum.photos/list') {
+    event.resondWith(servePhoto(event.request, requestUrl));
     return;
   }
 
@@ -58,14 +61,26 @@ self.addEventListener('fetch', function(event) {
   );
 });
 
-const servePhoto = request => {
+const servePhoto = (request, requestUrl) => {
+  console.log('request is: ', request);
+  console.log('requestURL is: ', requestUrl);
+  console.log('request.url is: ', request.url);
+  console.log('requestUrl.search is: ', requestUrl.search);
   return caches.open(contentImgsCache).then(cache => {
-    return cache.match(request.url).then(response => {
-      if (response) return response;
-      return fetch(request).then(networkResponse => {
-        cache.put(request.url, networkResponse.clone());
-        return networkResponse;
-      });
+    cache.keys().then(keys => {
+      for (let key of keys) {
+        if (!usedBGPhotos.includes(key.url)) {
+          usedBGPhotos.push(key.url);
+          return cache.match(key).then(response => {
+            return response;
+          });
+        }
+      }
+    });
+    return fetch(request).then(networkResponse => {
+      console.log('networkResponse: ', networkResponse.clone());
+      cache.put(request.url, networkResponse.clone());
+      return networkResponse;
     });
   });
 }
