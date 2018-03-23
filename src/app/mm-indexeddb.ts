@@ -1,15 +1,16 @@
 import idb from 'idb';
+// 
 
 export class MMIndexedDB {
   public addedKeys:    string[] = [];
   public items:        any[] = [];
+  public dbPromise:    Promise<any>;
   private dbName:      string;
   private dbStoreName: string;
   private dbVersion:   number;
   private primaryKey:  string;
   private dateKey:     string;
   private limit:       number;
-  private dbPromise: Promise<any>;
 
   constructor(dbName:      string, 
               dbStoreName: string, 
@@ -39,9 +40,9 @@ export class MMIndexedDB {
     });
   }
 
-  public updateDB(items) {
-    this.dbPromise.then(db => {
-      if (!db) return;
+  public updateDB(items):Promise<any> {
+    return this.dbPromise.then(db => {
+      if (!db) return Promise.resolve();
 
       const tx = db.transaction(this.dbStoreName, 'readwrite');
       const store = tx.objectStore(this.dbStoreName);
@@ -50,7 +51,7 @@ export class MMIndexedDB {
       }
 
       // limit to the specified number of items
-      store.index('by-date').openCursor(null, 'prev').then(cursor => {
+      return store.index('by-date').openCursor(null, 'prev').then(cursor => {
         return cursor.advance(this.limit);
       }).then(function deleteRest(cursor) {
         if (!cursor) return;

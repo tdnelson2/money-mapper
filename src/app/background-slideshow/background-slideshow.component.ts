@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable } from 'rxjs/Observable';
 
 import { PhotoService } from '../photo.service';
-
+// 
 @Component({
   selector: 'app-background-slideshow',
   templateUrl: './background-slideshow.component.html',
@@ -20,7 +20,6 @@ import { PhotoService } from '../photo.service';
 })
 export class BackgroundSlideshowComponent implements OnInit {
 
-  private photos: any[] = [];
   public photoA: any;
   public photoB: any;
   private state1 = 'show';
@@ -32,13 +31,13 @@ export class BackgroundSlideshowComponent implements OnInit {
         this.state1 = 'hide';
         this.state2 = 'show';
         setTimeout(() => {
-          this.photoA = nextPhoto;
+          this.photoService.db.updateDB([this.photoA]).then(() => this.photoA = nextPhoto);
         }, 3000);
     } else {
         this.state2 = 'hide';
         this.state1 = 'show';
         setTimeout(() => {
-          this.photoB = nextPhoto;
+          this.photoService.db.updateDB([this.photoB]).then(() => this.photoB = nextPhoto);
         }, 3000);
     }
   }
@@ -46,16 +45,23 @@ export class BackgroundSlideshowComponent implements OnInit {
   constructor( private photoService: PhotoService ) { }
 
   ngOnInit() {
-    this.photoService.fetchPhotos().subscribe((response: any) => {
-      const start = this.getRandomInt(0,response.length-11);
-      this.photos = response.slice(start, start+10);
-      this.addData();
-      this.queuePhotos();
+    this.photoService.db.getCachedItems().then(() => {
+      const areQueued = this.photoService.db.items.length > 0;
+      if (areQueued) this.queuePhotos();
+      this.photoService.fetchPhotos().subscribe((response: any) => {
+        const start = this.getRandomInt(0,response.length-11);
+        let photos = response.slice(start, start+10);
+        this.addData(photos);
+        this.photoService.db.addItems(photos);
+        if (!areQueued) this.queuePhotos();
+      });
     });
   }
 
-  private addData() {
-    for (let photo of this.photos) {
+  private addData(photos) {
+    const date = new Date().toISOString();
+    for (let photo of photos) {
+      photo['date_added'] = date;
       photo['style'] = this.buildBGStyle(photo.id);
     }
   }
@@ -66,13 +72,13 @@ export class BackgroundSlideshowComponent implements OnInit {
   }
 
   private queuePhotos(): void {
-    this.photoA = this.photos[0];
-    this.photoB = this.photos[1];
+    this.photoA = this.photoService.db.items[0];
+    this.photoB = this.photoService.db.items[1];
 
     setInterval(() => {
-      this.i = this.i === this.photos.length-1 ? 0 : this.i+1;
-      this.switchPhotos(this.photos[this.i]);
-      console.log(this.photos[this.i]);
+      this.i = this.i === this.photoService.db.items.length-1 ? 0 : this.i+1;
+      this.switchPhotos(this.photoService.db.items[this.i]);
+      console.log(this.photoService.db.items[this.i]);
     },8000);
   }
 

@@ -3,51 +3,56 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 
-import idb from 'idb';
+import { MMIndexedDB } from './mm-indexeddb';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+import idb from 'idb';
 
 @Injectable()
 export class PhotoService {
 
   private photoList = 'https://picsum.photos/list';
-  private dbPromise: Promise<any>;
+  public db: MMIndexedDB;
   private dbName = 'mm-photo';
   private dbStoreName = 'mm-photos';
+  private contentImgsCache = 'mm-content-imgs';
 
   constructor(private http: HttpClient) {
-    // this.dbPromise = this.openDatabase();
+    this.db = new MMIndexedDB(this.dbName, this.dbStoreName, 1, 'id', 'date_added', 30);
+
+    // Remove cached images not referenced in the db
+    this.cleanImageCache();
+    setInterval(() => {
+      this.cleanImageCache();
+    }, 1000 * 60 * 5);
   }
 
   public fetchPhotos():Observable<any> {
     return this.http.get(this.photoList);
   }
 
-  // public openDatabase():Promise<any> {
-  //   if (!navigator.serviceWorker) {
-  //     return Promise.resolve();
-  //   }
+  private cleanImageCache(): Promise<any> {
+    return this.db.dbPromise.then(db => {
+      if (!db) return;
 
-  //   return idb.open(this.dbName, 1, upgradeDb => {
-  //     const store = upgradeDb.createObjectStore(this.dbStoreName, {
-  //       keyPath: 'id'
-  //     });
-  //     store.createIndex('by-date', 'date-added');
-  //   });
-  // }
+      let photosNeeded = [];
+      const tx = db.transaction(this.dbStoreName);
+      return tx.objectStore(this.dbStoreName).getAll().then(photos => {
+        photos.forEach(photo => {
+          photosNeeded.push(`https://picsum.photos/?image=${photo.id}`);
+        });
 
-  // public getCachedStories(): Promise<any> {
-  //   return this.dbPromise.then(db => {
-  //     if(!db) return;
-  //     const index = db.transaction('nyts')
-  //       .objectStore('nyts').index('by-date');
-
-  //     return index.getAll().then(stories => {
-  //       this.addStories(stories.reverse());
-  //     });
-  //   });
-  // }
+        return caches.open(this.contentImgsCache);
+      }).then(cache => {
+        return cache.keys().then(requests => {
+          requests.forEach(request => {
+             if(!photosNeeded.includes(request.url)) {
+               console.log('cached image deleted: ', request);
+               cache.delete(request);
+             }
+          });
+        });
+      });
+    });
+  }
 
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NytimesService } from '../nytimes.service';
-
+// 
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -16,28 +16,23 @@ export class NytickerComponent implements OnInit {
   constructor(private nytService: NytimesService) {}
 
   ngOnInit() {
-    this.nytService.getCachedStories().then(() => {
-      let areQueued = false;
-      if (this.nytService.stories.length > 0) {
-        this.queueStories();
-        areQueued = true;
-      }
+    this.nytService.db.getCachedItems().then(() => {
+      const areQueued = this.nytService.db.items.length > 0;
+      if (areQueued) this.queueStories();
       this.nytService.fetchStories().subscribe((response: any) => {
-        this.nytService.addStories(response.results);
-        if (!areQueued) {
-          this.queueStories();
-        }
-        this.nytService.updateDB(response.results);
+        this.nytService.db.addItems(response.results);
+        if (!areQueued) this.queueStories();
+        this.nytService.db.updateDB(response.results);
       });
     });
   }
 
   queueStories(): void {
-      this.currentStory = this.nytService.stories[0];
+      this.currentStory = this.nytService.db.items[0];
 
       setInterval(() => {
-        this.i = this.i === this.nytService.stories.length-1 ? 0 : this.i+1;
-        this.currentStory = this.nytService.stories[this.i];
+        this.i = this.i === this.nytService.db.items.length-1 ? 0 : this.i+1;
+        this.currentStory = this.nytService.db.items[this.i];
       },10000);
   }
 }
