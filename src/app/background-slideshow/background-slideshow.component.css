@@ -1,0 +1,12 @@
+
+.bg {
+  left: 0;
+  top: 0;
+  z-index: -998;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
