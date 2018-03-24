@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Observable } from 'rxjs/Observable';
 
 import { PhotoService } from '../photo.service';
-// 
+//
 @Component({
   selector: 'app-background-slideshow',
   templateUrl: './background-slideshow.component.html',
@@ -83,8 +83,8 @@ export class BackgroundSlideshowComponent implements OnInit {
   }
 
   private buildImgUrl(id) {
-    const width = window.innerWidth*window.devicePixelRatio;
-    const height = window.innerHeight*window.devicePixelRatio;
+    const width = Math.floor(window.innerWidth*window.devicePixelRatio);
+    const height = Math.floor(window.innerHeight*window.devicePixelRatio);
     return `https://picsum.photos/${width}/${height}/?image=${id}`
   }
 
