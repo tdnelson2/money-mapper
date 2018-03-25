@@ -145,6 +145,6 @@ body {
  * Multi
  */
 
-.masthead, .cover, .mastfoot {
+.masthead, .cover, .mastfoot, app-toast-messages {
   z-index: 999;
 }

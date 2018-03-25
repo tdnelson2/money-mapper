@@ -61,7 +61,7 @@ export class ToastMessagesComponent implements OnInit {
 
   updateReady(sw: ServiceWorker) {
     this.toastr.custom('INSTALL UPDATE', 'Update Available', {
-      showCloseButton:true, 
+      showCloseButton:true,
       dismiss: 'controlled',
       data: sw
     });
