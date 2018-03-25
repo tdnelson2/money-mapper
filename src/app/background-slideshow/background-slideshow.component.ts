@@ -79,7 +79,6 @@ export class BackgroundSlideshowComponent implements OnInit {
     setInterval(() => {
       this.i = this.i === this.photoService.db.items.length-1 ? 0 : this.i+1;
       this.switchPhotos(this.photoService.db.items[this.i]);
-      console.log(this.photoService.db.items[this.i]);
     },8000);
   }
 
@@ -93,5 +92,4 @@ export class BackgroundSlideshowComponent implements OnInit {
     const url = this.buildImgUrl(id);
     return {'background-image':  `url(${url})`};
   }
-
 }

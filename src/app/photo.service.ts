@@ -46,7 +46,7 @@ export class PhotoService {
         return cache.keys().then(requests => {
           requests.forEach(request => {
              if(!photosNeeded.includes(request.url)) {
-               console.log('cached image deleted: ', request);
+               console.log('cached image deleted: ', request.url);
                cache.delete(request);
              }
           });

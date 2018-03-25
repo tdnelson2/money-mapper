@@ -1,5 +1,4 @@
 import idb from 'idb';
-// 
 
 export class MMIndexedDB {
   public addedKeys:    string[] = [];
@@ -12,11 +11,11 @@ export class MMIndexedDB {
   private dateKey:     string;
   private limit:       number;
 
-  constructor(dbName:      string, 
-              dbStoreName: string, 
-              dbVersion:   number, 
-              primaryKey:  string, 
-              dateKey:     string, 
+  constructor(dbName:      string,
+              dbStoreName: string,
+              dbVersion:   number,
+              primaryKey:  string,
+              dateKey:     string,
               limit:       number) {
   	this.dbName =          dbName;
   	this.dbStoreName =     dbStoreName;
