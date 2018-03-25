@@ -1,5 +1,5 @@
 <div *ngIf="photoA && photoB">
-	<div class="bg" [@crossfade]="state1" [ngStyle]="photoA.style"></div>
-	<div class="bg" [@crossfade]="state2" [ngStyle]="photoB.style"></div>
+  <div [ngClass]="classB" [ngStyle]="photoB.style"></div>
+  <div [ngClass]="classA" [ngStyle]="photoA.style"></div>
 </div>
 

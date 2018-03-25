@@ -1,43 +1,44 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { style, transition, animate, trigger, state } from '@angular/animations';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { Observable } from 'rxjs/Observable';
 
 import { PhotoService } from '../photo.service';
 //
 @Component({
   selector: 'app-background-slideshow',
   templateUrl: './background-slideshow.component.html',
-  styleUrls: ['./background-slideshow.component.css'],
-  animations: [
-          trigger('crossfade', [
-              state('show', style({ opacity: 1 })),
-              state('hide', style({ opacity: 0 })),
-              transition('* => show', animate('3s linear')),
-              transition('show => hide', animate('3s linear'))
-          ])]
+  styleUrls: ['./background-slideshow.component.css']
 })
 export class BackgroundSlideshowComponent implements OnInit {
 
   public photoA: any;
   public photoB: any;
-  private state1 = 'show';
-  private state2 = 'hide';
+  public classA = 'bg';
+  public classB = 'bg invisible';
+  private stateA = 'show';
+  private stateB = 'hide';
   private i = 1;
 
   private switchPhotos(nextPhoto: any) {
-    if (this.state1 === 'show') {
-        this.state1 = 'hide';
-        this.state2 = 'show';
+    if (this.stateA === 'show') {
+        this.stateA = 'hide';
+        this.stateB = 'show';
+        this.classA = 'bg fade-out';
+        this.classB = 'bg visible';
         setTimeout(() => {
-          this.photoService.db.updateDB([this.photoA]).then(() => this.photoA = nextPhoto);
+          this.photoService.db.updateDB([this.photoA]).then(() => {
+            this.classA = 'bg invisible';
+            this.photoA = nextPhoto
+          });
         }, 3000);
     } else {
-        this.state2 = 'hide';
-        this.state1 = 'show';
+        this.stateB = 'hide';
+        this.stateA = 'show';
+        this.classB = 'bg visible';
+        this.classA = 'bg fade-in';
         setTimeout(() => {
-          this.photoService.db.updateDB([this.photoB]).then(() => this.photoB = nextPhoto);
+          this.photoService.db.updateDB([this.photoB]).then(() => {
+            this.classB = 'bg visible';
+            this.photoB = nextPhoto
+          });
         }, 3000);
     }
   }

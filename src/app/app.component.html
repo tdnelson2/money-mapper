@@ -1,5 +1,10 @@
+
+<div class="base-solid"></div>
+<app-background-slideshow></app-background-slideshow>
+<div class="overlay-solid"></div>
+
 <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
-  <header class="masthead mb-auto">
+  <header class="masthead mb-auto" style="z-index: 999;">
     <div class="inner">
       <nav class="nav nav-masthead justify-content-center">
         <fa *ngIf="location.path() !== ''"
@@ -12,17 +17,14 @@
     </div>
   </header>
 
-  <main role="main" class="inner cover">
+  <main role="main" class="inner cover" style="z-index: 999;">
     <router-outlet></router-outlet>
   </main>
 
-  <footer class="mastfoot mt-auto">
+  <footer class="mastfoot mt-auto" style="z-index: 999;">
     <div class="inner">
       <app-nyticker></app-nyticker>
     </div>
   </footer>
   <app-toast-messages></app-toast-messages>
 </div>
-<app-background-slideshow></app-background-slideshow>
-<div class="overlay-solid"></div>
-<div class="base-solid"></div>
