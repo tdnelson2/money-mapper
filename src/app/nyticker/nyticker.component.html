@@ -1,7 +1,32 @@
-<p *ngIf="currentStory"
+<!-- <p *ngIf="currentStory"
    class="fade-animation regular"> News:
   <a href="{{currentStory.url}}"
      target="_blank">
       {{currentStory.title}}
   </a>
-</p>
+</p> -->
+<div *ngIf="crossDissolveAnimator && 
+			crossDissolveAnimator.itemA && 
+			crossDissolveAnimator.itemB"
+	 style="text-align: center;">
+  <p [ngClass]="crossDissolveAnimator.itemB.klass"
+  	 id="nytB"
+  	 appKeepCentered
+  	 >News: 
+  	<a href="{{crossDissolveAnimator.itemB.data.url}}"
+  	   target="_blank">
+  		{{crossDissolveAnimator.itemB.data.title}}
+  	</a>
+  </p>
+  <p [ngClass]="crossDissolveAnimator.itemA.klass"
+  	 id="nytA"
+  	 appKeepCentered
+  	 >News: 
+  	<a href="{{crossDissolveAnimator.itemA.data.url}}"
+  	   target="_blank">
+  		{{crossDissolveAnimator.itemA.data.title}}
+  	</a>
+  </p>
+</div>
+
+

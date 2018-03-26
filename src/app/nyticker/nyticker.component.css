@@ -28,3 +28,9 @@
    -o-animation: fadeAnimation 10s infinite;
     animation: fadeAnimation 10s infinite;
 }
+
+.headline {
+  position: absolute;
+  bottom: 20px;
+  /*width: 100%;*/
+}

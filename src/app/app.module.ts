@@ -23,6 +23,7 @@ import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ng2-currency-mask/src/
 import { AngularFontAwesomeModule }                 from 'angular-font-awesome';
 
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { KeepCenteredDirective } from './keep-centered.directive';
 
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
@@ -45,7 +46,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     IntroComponent,
     ToastMessagesComponent,
     NytickerComponent,
-    BackgroundSlideshowComponent
+    BackgroundSlideshowComponent,
+    KeepCenteredDirective
   ],
   imports: [
     BrowserModule,
