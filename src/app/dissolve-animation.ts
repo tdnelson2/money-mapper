@@ -5,6 +5,7 @@ export class DissolveAnimation {
 
   public itemA: any;
   public itemB: any;
+  public data: any;
   private i = 1;
   private db: MMIndexedDB;
   private transitionDuration: number;
@@ -39,12 +40,14 @@ export class DissolveAnimation {
     if (this.itemA.state === 'show') {
         this.itemA.state = 'hide';
         this.itemB.state = 'show';
+        this.data = this.itemB.data;
         this.itemA.klass = `fade-out ${this.cssClasses}`;
         this.itemB.klass = `visible ${this.cssClasses}`;
         this.setNextItem(nextItem, this.itemA);
     } else {
         this.itemB.state = 'hide';
         this.itemA.state = 'show';
+        this.data = this.itemA.data;
         this.itemB.klass = `visible ${this.cssClasses}`;
         this.itemA.klass = `fade-in ${this.cssClasses}`;
         this.setNextItem(nextItem, this.itemB);
@@ -82,6 +85,7 @@ export class DissolveAnimation {
     this.itemA = {state: 'show', klass: this.cssClasses, data: this.db.items[0]};
 
     if (this.isCrossDissolve) {
+      this.data = this.itemA.data;
       this.itemB = {state: 'hide', klass: `${this.cssClasses} invisible`, data: this.db.items[1]};
     } else if (this.isSequenceDissolve) {
       this.i = 0;

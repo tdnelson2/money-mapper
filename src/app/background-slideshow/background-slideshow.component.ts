@@ -4,6 +4,8 @@ import { PhotoService } from '../photo.service';
 
 import { DissolveAnimation } from '../dissolve-animation';
 
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
+
 @Component({
   selector: 'app-background-slideshow',
   templateUrl: './background-slideshow.component.html',
@@ -17,7 +19,12 @@ export class BackgroundSlideshowComponent implements OnInit {
 
   ngOnInit() {
     this.photoService.db.getCachedItems().then(() => {
-      this.dissolveAnimation = new DissolveAnimation('cross-dissolve', this.photoService.db, 3000, 15000, 'bg', true);
+      this.dissolveAnimation = new DissolveAnimation('cross-dissolve', 
+                                                      this.photoService.db, 
+                                                      3000, 
+                                                      15000, 
+                                                      'bg', 
+                                                      true);
       const areQueued = this.photoService.db.items.length > 0;
       if (areQueued) this.dissolveAnimation.queueItems();
       this.photoService.fetchPhotos().subscribe((response: any) => {
@@ -37,7 +44,6 @@ export class BackgroundSlideshowComponent implements OnInit {
       photo['style'] = this.buildBGStyle(photo.id);
     }
   }
-
 
   private getRandomInt(min: number, max:number) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
