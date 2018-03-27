@@ -2,6 +2,7 @@ import { BrowserModule }           from '@angular/platform-browser';
 import { NgModule }                from '@angular/core';
 import { FormsModule }             from '@angular/forms';
 import { HttpClientModule }        from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent }                       from './app.component';
 import { IntroComponent }                     from './intro/intro.component';
@@ -23,7 +24,6 @@ import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ng2-currency-mask/src/
 import { AngularFontAwesomeModule }                 from 'angular-font-awesome';
 
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
-import { KeepCenteredDirective } from './keep-centered.directive';
 
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
@@ -46,8 +46,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     IntroComponent,
     ToastMessagesComponent,
     NytickerComponent,
-    BackgroundSlideshowComponent,
-    KeepCenteredDirective
+    BackgroundSlideshowComponent
   ],
   imports: [
     BrowserModule,
@@ -55,6 +54,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     FormsModule,
     CurrencyMaskModule,
     AngularFontAwesomeModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     ToastModule.forRoot()
   ],

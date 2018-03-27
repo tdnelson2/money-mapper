@@ -1,11 +1,11 @@
-<div *ngIf="crossDissolveAnimator && 
-			crossDissolveAnimator.itemA && 
-			crossDissolveAnimator.itemB">
-  <div [ngClass]="crossDissolveAnimator.itemB.klass" 
-  	   [ngStyle]="crossDissolveAnimator.itemB.data.style">
+<div *ngIf="dissolveAnimation && 
+			dissolveAnimation.itemA && 
+			dissolveAnimation.itemB">
+  <div [ngClass]="dissolveAnimation.itemB.klass" 
+  	   [ngStyle]="dissolveAnimation.itemB.data.style">
   </div>
-  <div [ngClass]="crossDissolveAnimator.itemA.klass" 
-       [ngStyle]="crossDissolveAnimator.itemA.data.style">
+  <div [ngClass]="dissolveAnimation.itemA.klass" 
+       [ngStyle]="dissolveAnimation.itemA.data.style">
   </div>
 </div>
 

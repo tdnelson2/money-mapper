@@ -5,26 +5,13 @@
       {{currentStory.title}}
   </a>
 </p> -->
-<div *ngIf="crossDissolveAnimator && 
-			crossDissolveAnimator.itemA && 
-			crossDissolveAnimator.itemB"
-	 style="text-align: center;">
-  <p [ngClass]="crossDissolveAnimator.itemB.klass"
-  	 id="nytB"
-  	 appKeepCentered
+<div *ngIf="dissolveAnimation && 
+      			dissolveAnimation.itemA">
+  <p [ngClass]="dissolveAnimation.itemA.klass"
   	 >News: 
-  	<a href="{{crossDissolveAnimator.itemB.data.url}}"
+  	<a href="{{dissolveAnimation.itemA.data.url}}"
   	   target="_blank">
-  		{{crossDissolveAnimator.itemB.data.title}}
-  	</a>
-  </p>
-  <p [ngClass]="crossDissolveAnimator.itemA.klass"
-  	 id="nytA"
-  	 appKeepCentered
-  	 >News: 
-  	<a href="{{crossDissolveAnimator.itemA.data.url}}"
-  	   target="_blank">
-  		{{crossDissolveAnimator.itemA.data.title}}
+  		{{dissolveAnimation.itemA.data.title}}
   	</a>
   </p>
 </div>

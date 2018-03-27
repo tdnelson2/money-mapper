@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { PhotoService } from '../photo.service';
 
-import { CrossDissolve } from '../cross-dissolve';
+import { DissolveAnimation } from '../dissolve-animation';
 
 @Component({
   selector: 'app-background-slideshow',
@@ -11,21 +11,21 @@ import { CrossDissolve } from '../cross-dissolve';
 })
 export class BackgroundSlideshowComponent implements OnInit {
 
-  public crossDissolveAnimator: CrossDissolve;
+  public dissolveAnimation: DissolveAnimation;
 
   constructor( public photoService: PhotoService ) { }
 
   ngOnInit() {
     this.photoService.db.getCachedItems().then(() => {
-      this.crossDissolveAnimator = new CrossDissolve(this.photoService.db, 3000, 8000, 'bg', true);
+      this.dissolveAnimation = new DissolveAnimation('cross-dissolve', this.photoService.db, 3000, 15000, 'bg', true);
       const areQueued = this.photoService.db.items.length > 0;
-      if (areQueued) this.crossDissolveAnimator.queueItems();
+      if (areQueued) this.dissolveAnimation.queueItems();
       this.photoService.fetchPhotos().subscribe((response: any) => {
         const start = this.getRandomInt(0,response.length-11);
         let photos = response.slice(start, start+10);
         this.addData(photos);
         this.photoService.db.addItems(photos);
-        if (!areQueued) this.crossDissolveAnimator.queueItems();
+        if (!areQueued) this.dissolveAnimation.queueItems();
       });
     });
   }

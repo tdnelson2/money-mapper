@@ -1,7 +1,7 @@
 
 import { MMIndexedDB } from './mm-indexeddb';
 
-export class CrossDissolve {
+export class DissolveAnimation {
 
   public itemA: any;
   public itemB: any;
@@ -11,23 +11,31 @@ export class CrossDissolve {
   private interval: number;
   private cssClasses: string;
   private shouldUpdateDB: boolean;
-  private shouldCenter: boolean;
+  private isSequenceDissolve = false;
+  private isCrossDissolve = false;
 
-  constructor( db, 
+  constructor( animationType,
+               db, 
                transitionDuration, 
                interval, 
                cssClasses='', 
-               shouldUpdateDB=false,
-               shouldCenter=false ) {
+               shouldUpdateDB=false ) {
     this.db = db;
     this.transitionDuration = transitionDuration;
     this.cssClasses = cssClasses;
     this.interval = interval;
     this.shouldUpdateDB = shouldUpdateDB;
-    this.shouldCenter = shouldCenter;
+    if (animationType === 'sequence-dissolve') {
+      this.isSequenceDissolve = true;
+    } else if (animationType === 'cross-dissolve') {
+      this.isCrossDissolve = true;
+    } else {
+      throw `"${animationType}" is not one of the options. `+
+      'Please choose "sequence-dissolve" or "cross-dissolve"';
+    }
   };
 
-  private switchItems(nextItem: any) {
+  private crossDissolve(nextItem: any) {
     if (this.itemA.state === 'show') {
         this.itemA.state = 'hide';
         this.itemB.state = 'show';
@@ -45,9 +53,20 @@ export class CrossDissolve {
 
   private setNextItem(nextItem: any, item: any): void {
     const setNext = () => {
-      item.klass = `invisible ${this.cssClasses}`;
-      item.data = nextItem;
+      if (this.isCrossDissolve) {
+        item.klass = `invisible ${this.cssClasses}`;
+        item.data = nextItem;
+      } else if (this.isSequenceDissolve) {
+        this.itemA.klass = `invisible ${this.cssClasses}`;
+        item.data = nextItem;
+        this.itemA.klass = `fade-in ${this.cssClasses}`;
+      }
     }
+
+    if (this.isSequenceDissolve) {
+      this.itemA.klass = `fade-out ${this.cssClasses}`;
+    }
+
     setTimeout(() => {
       if (this.shouldUpdateDB) {
         this.db.updateDB([item.data]).then(() => {
@@ -60,16 +79,21 @@ export class CrossDissolve {
   }
 
   public queueItems(): void {
-    this.itemA = {state: 'show', klass: 'bg', data: this.db.items[0]};
-    this.itemB = {state: 'hide', klass: 'bg invisible', data: this.db.items[1]};
+    this.itemA = {state: 'show', klass: this.cssClasses, data: this.db.items[0]};
+
+    if (this.isCrossDissolve) {
+      this.itemB = {state: 'hide', klass: `${this.cssClasses} invisible`, data: this.db.items[1]};
+    } else if (this.isSequenceDissolve) {
+      this.i = 0;
+    }
 
     setInterval(() => {
-      // console.log('nytA width: ', document.getElementById('nytA').offsetWidth);
-      // console.log('nytB width: ', document.getElementById('nytB').offsetWidth);
-      console.log('this.itemA', this.itemA);
-      console.log('this.itemB', this.itemB);
       this.i = this.i === this.db.items.length-1 ? 0 : this.i+1;
-      this.switchItems(this.db.items[this.i]);
+      if (this.isCrossDissolve) {
+        this.crossDissolve(this.db.items[this.i]);
+      } else if (this.isSequenceDissolve) {
+        this.setNextItem(this.db.items[this.i], this.itemA);
+      }
     }, this.interval);
   }
 }

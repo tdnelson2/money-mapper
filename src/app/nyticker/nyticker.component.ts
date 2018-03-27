@@ -3,7 +3,7 @@ import { NytimesService } from '../nytimes.service';
 // 
 import { Observable } from 'rxjs/Observable';
 
-import { CrossDissolve } from '../cross-dissolve';
+import { DissolveAnimation } from '../dissolve-animation';
 
 @Component({
   selector: 'app-nyticker',
@@ -15,18 +15,18 @@ export class NytickerComponent implements OnInit {
   // i: number = 0;
   // currentStory: any;
 
-  public crossDissolveAnimator: CrossDissolve;
+  public dissolveAnimation: DissolveAnimation;
 
   constructor(private nytService: NytimesService) {}
 
   ngOnInit() {
     this.nytService.db.getCachedItems().then(() => {
-      this.crossDissolveAnimator = new CrossDissolve(this.nytService.db, 3000, 8000, 'headline');
+      this.dissolveAnimation = new DissolveAnimation('sequence-dissolve', this.nytService.db, 3000, 10000, 'regular');
       const areQueued = this.nytService.db.items.length > 0;
-      if (areQueued) this.crossDissolveAnimator.queueItems();
+      if (areQueued) this.dissolveAnimation.queueItems();
       this.nytService.fetchStories().subscribe((response: any) => {
         this.nytService.db.addItems(response.results);
-        if (!areQueued) this.crossDissolveAnimator.queueItems();
+        if (!areQueued) this.dissolveAnimation.queueItems();
         this.nytService.db.updateDB(response.results);
       });
     });
