@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { PhotoService } from '../photo.service';
-//
+
+import { DissolveAnimation } from '../dissolve-animation';
+
 @Component({
   selector: 'app-background-slideshow',
   templateUrl: './background-slideshow.component.html',
@@ -9,52 +11,21 @@ import { PhotoService } from '../photo.service';
 })
 export class BackgroundSlideshowComponent implements OnInit {
 
-  public photoA: any;
-  public photoB: any;
-  public classA = 'bg';
-  public classB = 'bg invisible';
-  private stateA = 'show';
-  private stateB = 'hide';
-  private i = 1;
+  public dissolveAnimation: DissolveAnimation;
 
-  private switchPhotos(nextPhoto: any) {
-    if (this.stateA === 'show') {
-        this.stateA = 'hide';
-        this.stateB = 'show';
-        this.classA = 'bg fade-out';
-        this.classB = 'bg visible';
-        setTimeout(() => {
-          this.photoService.db.updateDB([this.photoA]).then(() => {
-            this.classA = 'bg invisible';
-            this.photoA = nextPhoto
-          });
-        }, 3000);
-    } else {
-        this.stateB = 'hide';
-        this.stateA = 'show';
-        this.classB = 'bg visible';
-        this.classA = 'bg fade-in';
-        setTimeout(() => {
-          this.photoService.db.updateDB([this.photoB]).then(() => {
-            this.classB = 'bg visible';
-            this.photoB = nextPhoto
-          });
-        }, 3000);
-    }
-  }
-
-  constructor( private photoService: PhotoService ) { }
+  constructor( public photoService: PhotoService ) { }
 
   ngOnInit() {
     this.photoService.db.getCachedItems().then(() => {
+      this.dissolveAnimation = new DissolveAnimation('cross-dissolve', this.photoService.db, 3000, 15000, 'bg', true);
       const areQueued = this.photoService.db.items.length > 0;
-      if (areQueued) this.queuePhotos();
+      if (areQueued) this.dissolveAnimation.queueItems();
       this.photoService.fetchPhotos().subscribe((response: any) => {
         const start = this.getRandomInt(0,response.length-11);
         let photos = response.slice(start, start+10);
         this.addData(photos);
         this.photoService.db.addItems(photos);
-        if (!areQueued) this.queuePhotos();
+        if (!areQueued) this.dissolveAnimation.queueItems();
       });
     });
   }
@@ -70,16 +41,6 @@ export class BackgroundSlideshowComponent implements OnInit {
 
   private getRandomInt(min: number, max:number) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  private queuePhotos(): void {
-    this.photoA = this.photoService.db.items[0];
-    this.photoB = this.photoService.db.items[1];
-
-    setInterval(() => {
-      this.i = this.i === this.photoService.db.items.length-1 ? 0 : this.i+1;
-      this.switchPhotos(this.photoService.db.items[this.i]);
-    },8000);
   }
 
   private buildImgUrl(id) {

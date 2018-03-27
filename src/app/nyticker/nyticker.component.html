@@ -1,7 +1,19 @@
-<p *ngIf="currentStory"
+<!-- <p *ngIf="currentStory"
    class="fade-animation regular"> News:
   <a href="{{currentStory.url}}"
      target="_blank">
       {{currentStory.title}}
   </a>
-</p>
+</p> -->
+<div *ngIf="dissolveAnimation && 
+      			dissolveAnimation.itemA">
+  <p [ngClass]="dissolveAnimation.itemA.klass"
+  	 >News: 
+  	<a href="{{dissolveAnimation.itemA.data.url}}"
+  	   target="_blank">
+  		{{dissolveAnimation.itemA.data.title}}
+  	</a>
+  </p>
+</div>
+
+

@@ -1,5 +1,11 @@
-<div *ngIf="photoA && photoB">
-  <div [ngClass]="classB" [ngStyle]="photoB.style"></div>
-  <div [ngClass]="classA" [ngStyle]="photoA.style"></div>
+<div *ngIf="dissolveAnimation && 
+			dissolveAnimation.itemA && 
+			dissolveAnimation.itemB">
+  <div [ngClass]="dissolveAnimation.itemB.klass" 
+  	   [ngStyle]="dissolveAnimation.itemB.data.style">
+  </div>
+  <div [ngClass]="dissolveAnimation.itemA.klass" 
+       [ngStyle]="dissolveAnimation.itemA.data.style">
+  </div>
 </div>
 
