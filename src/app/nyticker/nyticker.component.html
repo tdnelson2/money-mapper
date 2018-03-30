@@ -1,19 +1,28 @@
-<!-- <p *ngIf="currentStory"
-   class="fade-animation regular"> News:
-  <a href="{{currentStory.url}}"
-     target="_blank">
-      {{currentStory.title}}
-  </a>
-</p> -->
 <div *ngIf="dissolveAnimation && 
-      			dissolveAnimation.itemA">
-  <p [ngClass]="dissolveAnimation.itemA.klass"
-  	 >News: 
-  	<a href="{{dissolveAnimation.itemA.data.url}}"
-  	   target="_blank">
-  		{{dissolveAnimation.itemA.data.title}}
-  	</a>
-  </p>
+      			dissolveAnimation.itemA &&
+            dissolveAnimation.itemB">
+  <div *ngIf="dissolveAnimation.itemAShouldBeVisible;then item_a else item_b"></div>
+
+  <ng-template #item_a>
+    <p [ngClass]="dissolveAnimation.itemA.klass"
+       >News: 
+      <a href="{{dissolveAnimation.itemA.data.url}}"
+         target="_blank">
+        {{dissolveAnimation.itemA.data.title}}
+      </a>
+    </p>
+  </ng-template>
+
+  <ng-template #item_b>
+    <p [ngClass]="dissolveAnimation.itemB.klass"
+       >News: 
+      <a href="{{dissolveAnimation.itemB.data.url}}"
+         target="_blank">
+        {{dissolveAnimation.itemB.data.title}}
+      </a>
+    </p>
+  </ng-template>
+
 </div>
 
 

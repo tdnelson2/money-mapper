@@ -62,6 +62,10 @@ p a {
   opacity: 1;
 }
 
+.hidden {
+  display: none;
+}
+
 /* Fade Out */
 @keyframes fadeOut {
   0%    { opacity: 1; }

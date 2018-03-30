@@ -1,6 +1,6 @@
 <div *ngIf="dissolveAnimation && 
-			dissolveAnimation.itemA && 
-			dissolveAnimation.itemB">
+			dissolveAnimation.itemA.data && 
+			dissolveAnimation.itemB.data">
   <div [ngClass]="dissolveAnimation.itemB.klass" 
   	   [ngStyle]="dissolveAnimation.itemB.data.style">
   </div>
@@ -11,8 +11,7 @@
       size="1x"
       class="info-link" 
       data-toggle="modal" 
-      data-target="#photoInfoModal"
-      style="position: absolute; bottom: 5px; right: 8px; z-index: 99;">
+      data-target="#photoInfoModal">
   </fa>
   <!-- Modal -->
   <div *ngIf="dissolveAnimation.data" class="modal fade" id="photoInfoModal" tabindex="-1" role="dialog" aria-labelledby="photoInfoModalCenterTitle" aria-hidden="true">
@@ -25,7 +24,16 @@
           </button>
         </div>
         <div class="modal-body">
-          <p><a href="{{dissolveAnimation.data.author_url}}" target="_blank">{{dissolveAnimation.data.author}}</a>&emsp;|&emsp;<a href="{{dissolveAnimation.data.post_url}}" target="_blank">View Photo</a></p>
+          <p>
+            <a href="{{dissolveAnimation.data.author_url}}" 
+               target="_blank">
+               {{dissolveAnimation.data.author}}
+            </a>&emsp;|&emsp;
+            <a href="{{dissolveAnimation.data.post_url}}" 
+               target="_blank">
+             View Photo
+           </a>
+         </p>
         </div>
       </div>
     </div>

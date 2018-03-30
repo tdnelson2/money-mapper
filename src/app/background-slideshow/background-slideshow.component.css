@@ -4,6 +4,10 @@
   color: rgba(255, 255, 255, .5);
   background-color: transparent;
   border-bottom: .25rem solid transparent;
+  position: absolute;
+  bottom: 0px;
+  right: 8px;
+  z-index: 99;
 }
 
 .info-link:hover {
