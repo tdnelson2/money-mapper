@@ -3,41 +3,31 @@ import { NytimesService } from '../nytimes.service';
 // 
 import { Observable } from 'rxjs/Observable';
 
-import { DissolveAnimation } from '../dissolve-animation';
+import { SequenceDissolve } from 'css-dissolve-animation-angular';
 
 @Component({
   selector: 'app-nyticker',
   templateUrl: './nyticker.component.html',
-  styleUrls: ['./nyticker.component.css']
+  styleUrls: ['../../../node_modules/css-dissolve-animation-angular/css/styles.css', './nyticker.component.css']
 })
 export class NytickerComponent implements OnInit {
 
-  // i: number = 0;
-  // currentStory: any;
-
-  public dissolveAnimation: DissolveAnimation;
+  public sequenceDissolve: SequenceDissolve;
 
   constructor(private nytService: NytimesService) {}
 
   ngOnInit() {
     this.nytService.db.getCachedItems().then(() => {
-      this.dissolveAnimation = new DissolveAnimation('sequence-dissolve', this.nytService.db, 3000, 10000, 'regular');
+      this.sequenceDissolve = new SequenceDissolve(this.nytService.db.items, {
+                                                   staticKlasses: 'regular', 
+                                                   interval: 10000});
       const areQueued = this.nytService.db.items.length > 0;
-      if (areQueued) this.dissolveAnimation.queueItems();
+      if (areQueued) this.sequenceDissolve.animate();
       this.nytService.fetchStories().subscribe((response: any) => {
         this.nytService.db.addItems(response.results);
-        if (!areQueued) this.dissolveAnimation.queueItems();
+        if (!areQueued) this.sequenceDissolve.animate();
         this.nytService.db.updateDB(response.results);
       });
     });
   }
-
-  // queueStories(): void {
-  //     this.currentStory = this.nytService.db.items[0];
-
-  //     setInterval(() => {
-  //       this.i = this.i === this.nytService.db.items.length-1 ? 0 : this.i+1;
-  //       this.currentStory = this.nytService.db.items[this.i];
-  //     },10000);
-  // }
 }

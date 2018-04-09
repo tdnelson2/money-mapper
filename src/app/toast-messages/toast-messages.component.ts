@@ -73,7 +73,10 @@ export class ToastMessagesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.updateServiceWorker();
+    // Allow time for the SW to load
+    setTimeout(() => {
+      this.updateServiceWorker();
+    }, 5000);
   }
 
 }
