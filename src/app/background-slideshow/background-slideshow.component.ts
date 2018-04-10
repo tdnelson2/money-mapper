@@ -32,17 +32,13 @@ export class BackgroundSlideshowComponent implements OnInit {
         if (!areQueued) this.crossDissolve.animate();
       });
 
-      // Add the photos to IndexedDB only after they've appeared. 
-      // This should ensure only photos that have been cached 
-      // will appear in the db.
-      const items: (string | any)[][] = [['itemA', this.crossDissolve.itemA], 
-                                         ['itemB', this.crossDissolve.itemB]];
-      for (let item of items) {
-        document.addEventListener(`${this.eventID}--${item[0]}--da-visible--WILL-REMOVE`, (evt) => {
-          console.log('item to be added to db: ', item[1].data);
-          this.updateDB(item[1].data);
-        });
-      }
+      document.addEventListener(`${this.eventID}--itemA--da-visible--WILL-REMOVE`, (evt) => {
+        this.updateDB([this.crossDissolve.itemA.data]);
+      });
+
+      document.addEventListener(`${this.eventID}--itemB--da-visible--WILL-REMOVE`, (evt) => {
+        this.updateDB([this.crossDissolve.itemB.data]);
+      });
     });
   }
 
