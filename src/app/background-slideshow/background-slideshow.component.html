@@ -1,11 +1,42 @@
-<div *ngIf="dissolveAnimation && 
-			dissolveAnimation.itemA && 
-			dissolveAnimation.itemB">
-  <div [ngClass]="dissolveAnimation.itemB.klass" 
-  	   [ngStyle]="dissolveAnimation.itemB.data.style">
+<div *ngIf="crossDissolve && 
+			crossDissolve.itemA && 
+			crossDissolve.itemB">
+  <div [ngClass]="crossDissolve.itemB.klass" 
+  	   [ngStyle]="crossDissolve.itemB.data.style">
   </div>
-  <div [ngClass]="dissolveAnimation.itemA.klass" 
-       [ngStyle]="dissolveAnimation.itemA.data.style">
+  <div [ngClass]="crossDissolve.itemA.klass" 
+       [ngStyle]="crossDissolve.itemA.data.style">
+  </div>
+  
+  <fa name="info-circle"
+      size="1x"
+      class="info-link" 
+      data-toggle="modal" 
+      data-target="#photoInfoModal">
+  </fa>
+  <!-- Modal -->
+  <div *ngIf="crossDissolve.data" class="modal fade" id="photoInfoModal" tabindex="-1" role="dialog" aria-labelledby="photoInfoModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div style="background-color: #333;" class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="photoInfoModalLongTitle">Photo Credit</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+            <a href="{{crossDissolve.data.author_url}}" 
+               target="_blank">
+               {{crossDissolve.data.author}}
+            </a>&emsp;|&emsp;
+            <a href="{{crossDissolve.data.post_url}}" 
+               target="_blank">
+             View Photo
+           </a>
+         </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-

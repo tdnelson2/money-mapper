@@ -1,19 +1,17 @@
-<!-- <p *ngIf="currentStory"
-   class="fade-animation regular"> News:
-  <a href="{{currentStory.url}}"
-     target="_blank">
-      {{currentStory.title}}
-  </a>
-</p> -->
-<div *ngIf="dissolveAnimation && 
-      			dissolveAnimation.itemA">
-  <p [ngClass]="dissolveAnimation.itemA.klass"
-  	 >News: 
-  	<a href="{{dissolveAnimation.itemA.data.url}}"
-  	   target="_blank">
-  		{{dissolveAnimation.itemA.data.title}}
-  	</a>
-  </p>
+
+<div *ngIf="sequenceDissolve &&
+            sequenceDissolve.itemA &&
+            sequenceDissolve.itemB">
+    <p [ngClass]="sequenceDissolve.itemB.klass"> News: 
+      <a href="{{sequenceDissolve.itemB.data.url}}"
+         target="_blank">
+        {{sequenceDissolve.itemB.data.title}}
+      </a>
+    </p>
+    <p [ngClass]="sequenceDissolve.itemA.klass"> News: 
+      <a href="{{sequenceDissolve.itemA.data.url}}"
+         target="_blank">
+        {{sequenceDissolve.itemA.data.title}}
+      </a>
+    </p>
 </div>
-
-

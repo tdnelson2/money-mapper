@@ -25,16 +25,26 @@ export class ToastMessagesComponent implements OnInit {
     if (!navigator.serviceWorker) return;
 
     navigator.serviceWorker.register('/sw.js').then( reg => {
+
+      // If this is the first visit, don't prompt for update
+      if (!navigator.serviceWorker.controller) return;
+
+      // If there's an updated worker already waiting, notify the user.
       if (reg.waiting) {
         this.updateReady(reg.waiting);
         return;
       }
 
+      // If there's an updated worker installing, track its
+      // progress. If it becomes "installed", notify the user.
       if (reg.installing) {
         this.trackInstalling(reg.installing);
         return;
       }
 
+      // Otherwise, listen for new installing workers arriving.
+      // If one arrives, track its progress.
+      // If it becomes "installed", , notify the user.
       reg.addEventListener('updatefound', () => {
         this.trackInstalling(reg.installing);
       });
@@ -73,7 +83,10 @@ export class ToastMessagesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.updateServiceWorker();
+    // Allow time for the SW to load
+    setTimeout(() => {
+      this.updateServiceWorker();
+    }, 5000);
   }
 
 }
