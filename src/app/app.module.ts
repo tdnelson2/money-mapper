@@ -25,6 +25,8 @@ import { AngularFontAwesomeModule }                 from 'angular-font-awesome';
 
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
+import { ChartsModule } from 'ng2-charts';
+
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     align: "left",
@@ -56,6 +58,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     AngularFontAwesomeModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    ChartsModule,
     ToastModule.forRoot()
   ],
   providers: [

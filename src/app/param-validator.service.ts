@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { isNumber, isNaN, has } from 'lodash';
 
-import { arrayToSentence }         from './array-to-sentence';
+import { arrayToSentence } from './array-to-sentence';
 
 @Injectable()
 export class ParamValidatorService {

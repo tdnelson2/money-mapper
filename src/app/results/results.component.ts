@@ -16,6 +16,19 @@ import { PaydayService }         from '../payday.service';
 })
 export class ResultsComponent implements OnInit {
 
+  public barChartOptions:any = {
+    scaleShowVerticalLines: true,
+    responsive: true,
+    maintainAspectRatio: true,
+    legend: {
+      display: false
+    }
+  };
+  public barChartType: string = 'bar';
+  public barChartLegend: boolean = true;
+  public barChartLabels: string[] = [''];
+  public barChartData: any[] = [{ data:[0] }];
+
   constructor(
   	private paramValidator: ParamValidatorService,
     private route: ActivatedRoute,
@@ -75,6 +88,13 @@ export class ResultsComponent implements OnInit {
             }
           }
           mapPayRecurrence(this.pd);
+          let currentYear;
+          this.pd.mappedMonths.forEach(month => {
+             this.barChartData[0].data.push(Math.round(month.recurrenceCount*this.pd.paycheckAmount));
+             const monthName = month.year === currentYear ? month.name : `${month.name} ${month.year}`
+             currentYear = month.year;
+             this.barChartLabels.push(monthName);
+          });
 		  	} else {
           this.router.navigateByUrl('main');
 		  	}
