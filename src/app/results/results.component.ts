@@ -20,14 +20,42 @@ export class ResultsComponent implements OnInit {
     scaleShowVerticalLines: true,
     responsive: true,
     maintainAspectRatio: true,
+    title: {
+      display: true,
+      text: 'Cash Flows',
+      fontColor: '#ffffff'
+    },
     legend: {
       display: false
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          fontColor: '#ffffff',
+          beginAtZero: true
+        }
+      }],
+      xAxes: [{
+        ticks: {
+          fontColor: '#ffffff',
+          beginAtZero: true
+        }
+      }]
     }
   };
-  public barChartType: string = 'bar';
+  public barChartType: string = 'horizontalBar';
   public barChartLegend: boolean = true;
-  public barChartLabels: string[] = [''];
-  public barChartData: any[] = [{ data:[0] }];
+  public barChartLabels: string[] = [];
+  public barChartData: any[] = 
+          [{ 
+            data:[],
+            borderWidth: 1
+          }];
+  public barChartColors: any = 
+         [{
+           backgroundColor: [],
+           borderColor: []
+         }];
 
   constructor(
   	private paramValidator: ParamValidatorService,
@@ -89,12 +117,22 @@ export class ResultsComponent implements OnInit {
           }
           mapPayRecurrence(this.pd);
           let currentYear;
-          this.pd.mappedMonths.forEach(month => {
-             this.barChartData[0].data.push(Math.round(month.recurrenceCount*this.pd.paycheckAmount));
-             const monthName = month.year === currentYear ? month.name : `${month.name} ${month.year}`
-             currentYear = month.year;
-             this.barChartLabels.push(monthName);
-          });
+          let index = 0;
+          for (let month of this.pd.mappedMonths) {
+            this.barChartData[0].data.push(Math.round(month.recurrenceCount*this.pd.paycheckAmount));
+            const monthName = month.year === currentYear ? month.name : `${month.name} ${month.year}`
+            currentYear = month.year;
+            this.barChartLabels.push(monthName);
+            this.barChartColors[0].backgroundColor.push('rgba(255,255,255, 0)');
+            this.barChartColors[0].borderColor.push('rgba(255,255,255, 1)');
+            if (index === 6) { return; } else { index++ };
+          }
+          // this.pd.mappedMonths.forEach(month => {
+          //   this.barChartData[0].data.push(Math.round(month.recurrenceCount*this.pd.paycheckAmount));
+          //   const monthName = month.year === currentYear ? month.name : `${month.name} ${month.year}`
+          //   currentYear = month.year;
+          //   this.barChartLabels.push(monthName);
+          // });
 		  	} else {
           this.router.navigateByUrl('main');
 		  	}
