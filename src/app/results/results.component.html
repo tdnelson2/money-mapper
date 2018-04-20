@@ -1,6 +1,6 @@
 
 <div>
-  <div style="display: block">
+  <div style="display: block; height: 300px;">
     <canvas baseChart
             [datasets]="barChartData"
             [labels]="barChartLabels"
@@ -11,7 +11,20 @@
             (chartHover)="chartHovered($event)"
             (chartClick)="chartClicked($event)"></canvas>
   </div>
+  <!-- <p style="text-align: right;">Next 6 Months</p> -->
 </div>
+
+<fa name="angle-left"
+    size="3x"
+    class="prev-six-months"
+    (click)="prev6Months()">
+</fa>
+
+<fa name="angle-right"
+    size="3x"
+    class="next-six-months"
+    (click)="next6Months()">
+</fa>
 
 
 

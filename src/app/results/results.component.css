@@ -1,0 +1,17 @@
+.next-six-months, .prev-six-months {
+  display: inline;
+  color: rgba(255, 255, 255, .5);
+  background-color: transparent;
+  border-bottom: .25rem solid transparent;
+  position: absolute;
+  bottom: 50%;
+  z-index: 99;
+}
+
+.prev-six-months {
+  left: 8px;
+}
+
+.next-six-months {
+  right: 8px;
+}

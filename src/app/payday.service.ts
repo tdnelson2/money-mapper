@@ -6,7 +6,7 @@ import { Month } from './month';
 
 @Injectable()
 export class PaydayService {
-
+  
   constructor() { }
 
   nextPayday: Date;
