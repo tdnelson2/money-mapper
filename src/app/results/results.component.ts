@@ -43,18 +43,50 @@ export class ResultsComponent implements OnInit {
           beginAtZero: true
         }
       }]
+    },
+    tooltips: {
+      callbacks: {
+        title: (item, data) => {
+          const r = this.pd.mappedMonths[item[0].index];
+          return `${r.name} ${r.year}`;
+        },
+        label: (item, data) => {
+          let pay = String(item.yLabel);
+          if (item.yLabel >= 1000) {
+            // Add commas for numbers greater than 1000
+            let [res, len] = ['', pay.length];
+            for (let i = len-1; i > -1; --i) {
+              if (i+1 !== len && (len - (i+1)) % 3 === 0) res = `,${res}`;
+              res = pay[i]+res;
+            }
+            pay = res;
+          }
+          return '$'+pay;
+        },
+        afterLabel: (item, data) => {
+          const dates = this.pd.mappedMonths[item.index]
+                         .recurrenceDates.map(d => d.format('Do'));
+          return `Payday${dates.length > 1 ? 's' : ''}: ${dates.join(', ')}`;
+        },
+        labelColor: (item, data) => {
+          return {
+              borderColor: this.barChartColors[0].borderColor[item.index],
+              backgroundColor: this.barChartColors[0].backgroundColor[item.index]
+          }
+        }
+      }
     }
   };
+
   public barChartType: string = 'bar';
-  // public barChartType: string = 'horizontalBar';
   public barChartLegend: boolean = true;
   public barChartLabels: string[] = [];
-  public barChartData: any[] = 
-          [{ 
+  public barChartData: any[] =
+          [{
             data:[],
             borderWidth: 1
           }];
-  public barChartColors: any = 
+  public barChartColors: any =
          [{
            backgroundColor: [],
            borderColor: []
@@ -67,98 +99,64 @@ export class ResultsComponent implements OnInit {
     public  pd: PaydayService
 	) { }
 
-  isare(item: any): string {
-    return this._count(item) === 1 ? 'is' : 'are';
-  }
-
-  s(item: any): string {
-    return this._count(item) === 1 ? '' : 's';
-  }
-
-  _count(item: any): number {
-
-    switch (String(typeof(item))) {
-
-      case 'array':
-        return item.length;
-
-      case 'object':
-        return item.length;
-
-      case 'number':
-        return item;
-
-      default:
-        return 0;
-    }
-  }
-
-
   public next6Months(): void {
-    console.log('next6months clicked')
-
-    const nextDate = this.pd.mappedMonths.slice(-1)[0]
-                         .recurrenceDates.slice(-1)[0]
-                         .add(this.pd.frequencyInDays, 'days')
-                         .format('YYYY-MM-DD');
-
-      const url = "/results?pay="+this.pd.paycheckAmount+
-                         "&date="+nextDate+
-                    "&frequency="+this.pd.frequencyInDays;
-
-      this.router.navigateByUrl(url);
+    this.newChart(
+        this.pd.mappedMonths.slice(-1)[0]
+            .recurrenceDates.slice(-1)[0]
+            .add(this.pd.frequencyInDays, 'days')
+            .format('YYYY-MM-DD')
+    );
   }
 
   prev6Months() {
-    // Get the number of days until the beginning
-    // of the 6th month in the past
-    const start = this.pd.mappedMonths.slice(0)[0]
-                      .recurrenceDates.slice(0)[0]
+    const start = this.pd.mappedMonths[0]
+                      .recurrenceDates[0]
                       .subtract(this.pd.frequencyInDays, 'days');
-    const end =  start.clone().subtract(5, 'months');
-          end.subtract(end.date()-1, 'days');
-    let recurrences = mapMonthlyRecurrences(start, end, this.pd.frequencyInDays);
-    const firstDate = recurrences.slice(-1)[0]
-                     .recurrenceDates.slice(-1)[0]
-                     .format('YYYY-MM-DD');
+    const end =  start.clone()
+                      .subtract(5, 'months');
+                   end.subtract(end.date()-1, 'days');
+    this.newChart(
+         mapMonthlyRecurrences(start, end, this.pd.frequencyInDays).slice(-1)[0]
+        .recurrenceDates.slice(-1)[0]
+        .format('YYYY-MM-DD')
+    );
+  }
 
+  private newChart(date) {
     const url = "/results?pay="+this.pd.paycheckAmount+
-                       "&date="+firstDate+
+                       "&date="+date+
                   "&frequency="+this.pd.frequencyInDays;
-
     this.router.navigateByUrl(url);
   }
 
   private updateChartData(): void {
-    console.log('update being called');
+
     // Get number of days to the end of the 6th month
     const start = moment(this.pd.nextPayday);
-    const days = start.clone().add(6, 'months').endOf('month').diff(start, 'days');
-
-    console.log('start: ',start.toDate());
-    console.log('days: ',days);
+    const days = start.clone().add(5, 'months').endOf('month').diff(start, 'days');
 
     // Add recurrence data to `this.pd`
     mapPayRecurrence(this.pd, days);
-    console.log('mapped months: ',this.pd.mappedMonths);
 
     this.clearChart();
 
     let currentYear;
-    for (var i = 0; i < this.pd.mappedMonths.length; ++i) {
-      const month = this.pd.mappedMonths[i];
+    for (let month of this.pd.mappedMonths) {
 
       const income = month.recurrenceCount*this.pd.paycheckAmount;
 
       // Add total income for each month to chart
       this.barChartData[0].data.push(Math.round(income));
 
+      // Abreviate long months
+      const m = month.name.length > 5 ? month.name.slice(0,3)+'.' : month.name;
+
       // Build the label for each month
-      const monthName = month.year === currentYear ? month.name : `${month.name} ${month.year}`
+      const monthName = month.year === currentYear ? m : `${m} ${month.year}`
       currentYear = month.year;
       this.barChartLabels.push(monthName);
 
-      // Use colors to highlight outlier months
+      // Highlight outlier months
       if (this.pd.lowMonthPayAmount != income) {
         this.barChartColors[0].backgroundColor.push('rgba(255,255,255, 0.3)');
       } else {
@@ -169,7 +167,7 @@ export class ResultsComponent implements OnInit {
   }
 
   private clearChart(): void {
-    [this.barChartData[0].data, 
+    [this.barChartData[0].data,
      this.barChartLabels,
      this.barChartColors[0].backgroundColor,
      this.barChartColors[0].borderColor] = [[],[],[],[]];
@@ -183,21 +181,6 @@ export class ResultsComponent implements OnInit {
           this.pd.nextPayday = moment(params.date, 'YYYY-MM-DD').toDate();
           this.pd.paycheckAmount = +params.pay;
           this.pd.frequencyInDays = +params.frequency;
-
-          if ( params.frequency === '-1' ) {
-            this.pd.frequency = 'Every month';
-
-            // Since this app isn't designed for people who
-            // are paid monthly, we'll just generate a hypothetical
-            // "if you were paid every two weeks" example
-            this.pd.frequencyInDays = 14;
-          } else {
-            if ( params.frequency === '7' ) {
-              this.pd.frequency = 'Every week';
-            } else if ( params.frequency === '14' ) {
-              this.pd.frequency = 'Every 2 weeks';
-            }
-          }
           this.updateChartData();
 		  	} else {
           this.router.navigateByUrl('main');

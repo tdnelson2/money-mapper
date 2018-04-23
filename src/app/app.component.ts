@@ -1,5 +1,6 @@
 import { Component }                                      from '@angular/core';
 import {Location, LocationStrategy, HashLocationStrategy} from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -16,9 +17,19 @@ export class AppComponent {
 
   location: Location;
 
-  constructor(location: Location) { this.location = location; }
+  constructor(
+    location: Location,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.location = location;
+  }
 
   goBack(): void {
-    this.location.back();
+    if (this.location.path().startsWith('/results')) {
+      this.router.navigateByUrl('/main');
+    } else {
+      this.location.back();
+    }
   }
 }

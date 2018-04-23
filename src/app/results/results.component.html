@@ -1,6 +1,6 @@
 
 <div>
-  <div style="display: block; height: 300px;">
+  <div class="chart-container">
     <canvas baseChart
             [datasets]="barChartData"
             [labels]="barChartLabels"
@@ -25,58 +25,3 @@
     class="next-six-months"
     (click)="next6Months()">
 </fa>
-
-
-
-
-<!-- Non-monthly payday scenarios where high pay months are the outlier -->
-
-<!-- <div *ngIf="pd.frequency !== 'Every month' &&
-	        pd.outliersExist &&
-	        pd.outlierMonthsAreHigh">
-	<h1 class="cover-heading">
-              I found {{pd.highMonths.length}} bumper month{{s(pd.highMonths)}}.
-	</h1>
-	<p class="lead">
-		Over the next year there {{isare(pd.highMonths)}} {{pd.highMonths.length}} month{{s(pd.highMonths)}} in which you will get paid {{pd.lowNumberOfPeriods+1}} time{{s(pd.lowNumberOfPeriods+1)}} instead of only {{pd.lowNumberOfPeriods}} time{{s(pd.lowNumberOfPeriods)}}. In {{pd.highMonthsPhrase}} you will take home {{pd.highMonthPayAmount | currency: USD: 'symbol':'1.0-0'}} instead of {{pd.lowMonthPayAmount | currency: USD: 'symbol':'1.0-0'}}.
-	</p>
-</div> -->
-
-<!-- Non-monthly payday scenarios where low pay months are the outlier -->
-
-<!-- <div *ngIf="pd.frequency !== 'Every month' &&
-	        pd.outliersExist &&
-	       !pd.outlierMonthsAreHigh">
-	<h1 class="cover-heading">
-			  I found {{pd.lowMonths.length}} lean month{{s(pd.lowMonths)}}.
-	</h1>
-	<p class="lead">
-		Over the next year there {{isare(pd.lowMonths)}} {{pd.lowMonths.length}} month{{s(pd.lowMonths)}} in which you will get paid {{pd.lowNumberOfPeriods}} time{{s(pd.lowNumberOfPeriods)}} instead of {{pd.lowNumberOfPeriods+1}} time{{s(pd.lowNumberOfPeriods+1)}}. In {{pd.lowMonthsPhrase}} you will take home {{pd.lowMonthPayAmount | currency: USD: 'symbol':'1.0-0'}} instead of {{pd.highMonthPayAmount | currency: USD: 'symbol':'1.0-0'}}.
-	</p>
-</div> -->
-
-
-<!-- Non-monthly payday scenarios where no fluctuations are found -->
-
-<!-- <div *ngIf="pd.frequency !== 'Every month' &&
-	       !pd.outliersExist">
-	<h1 class="cover-heading">
-		      I found no monthly pay fluctuations.
-	</h1>
-	<p class="lead">
-		There are no month-to-month income fluctuations in the next 12 months. Paydays every {{pd.frequencyInDays}} days occur exactly once per month.
-	</p>
-</div> -->
-
-
-<!-- Monthly payday scenario -->
-
-<!-- <div *ngIf="pd.frequency === 'Every month'">
-	<h1 class="cover-heading">
-		      I found no monthly pay fluctuations.
-	</h1>
-	<p class="lead">
-		Since you are paid once per month, there are no month-to-month income fluctuations. However, hypothetically speaking, if you were paid {{pd.paycheckAmount/2 | currency: USD: 'symbol':'1.0-0'}} every two weeks, over the next year there {{isare(pd.highMonths)}} {{pd.highMonths.length}} month{{s(pd.highMonths)}} in which you would get paid {{pd.lowNumberOfPeriods+1}} times instead of only {{pd.lowNumberOfPeriods}} times. In {{pd.highMonthsPhrase}} you would take home {{pd.highMonthPayAmount | currency: USD: 'symbol':'1.0-0'}} instead of {{pd.lowMonthPayAmount | currency: USD: 'symbol':'1.0-0'}}.
-	</p>
-</div> -->
-

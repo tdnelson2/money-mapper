@@ -1,3 +1,8 @@
+.chart-container {
+  display: block;
+  height: 300px;
+}
+
 .next-six-months, .prev-six-months {
   display: inline;
   color: rgba(255, 255, 255, .5);
@@ -6,6 +11,7 @@
   position: absolute;
   bottom: 50%;
   z-index: 99;
+  cursor: pointer;
 }
 
 .prev-six-months {
@@ -14,4 +20,8 @@
 
 .next-six-months {
   right: 8px;
+}
+
+.prev-six-months:hover, .next-six-months:hover {
+  color: #fff;
 }
